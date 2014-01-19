@@ -4,6 +4,7 @@
 #include "Global.h"
 
 #include "CharacterRPGAttributes.h"
+#include "AnimationComponent.h"
 
 class BattleSystem: public artemis::EntityProcessingSystem
 {
@@ -26,6 +27,7 @@ public:
 	virtual void initialize() 
 	{
 		RPGattributesMapper.init(*world);
+		animationMapper.init(*world);
 		groupManager = world->getGroupManager();
 		tagManager = world->getTagManager();
 		currentTurn = PLAYERTURN;
@@ -36,24 +38,25 @@ public:
 
 	void setAttack(string attack)
 	{
-		this->attack = attack;
-		update();
+		abilitySelection(attack);
+		abilitySelection("Ability_2");
 	}
 	
-	void update()
+	void abilitySelection(string abilityName)
 	{
+		
 		if(RPGattributesMapper.get(*player)->getCurrentHealth() > 0 && RPGattributesMapper.get(*enemy)->getCurrentHealth() > 0)
 		{
 			if(currentTurn == PLAYERTURN)
 			{
-				useAbility(attack, player, enemy);
+				Ability* a = RPGattributesMapper.get(*player)->getAbility(abilityName);
+				useAbility(a, player, enemy);
 				currentTurn = ENEMYTURN;
 			}
 			else if(currentTurn == ENEMYTURN)
 			{
-				// calculate enemy move
-				attack = "Ability_1";
-				useAbility(attack, enemy, player);
+				Ability* a = RPGattributesMapper.get(*enemy)->getAbility(abilityName);
+				useAbility(a, enemy, player);
 				currentTurn = PLAYERTURN;
 			}
 		}
@@ -63,14 +66,24 @@ public:
 		}
 	}
 
-	void useAbility(std::string abilityName, artemis::Entity* invoker, artemis::Entity* receiver)
+	double calculateDamage(Ability* ability, artemis::Entity* invoker, artemis::Entity* receiver)
+	// Could replace later with the strategy pattern
 	{
-		Ability* a = RPGattributesMapper.get(*invoker)->getAbility(abilityName);
-		if(a != NULL)
+		return 10.0;
+	}
+
+	void useAbility(Ability* ability, artemis::Entity* invoker, artemis::Entity* receiver)
+	{
+		double damage = calculateDamage(ability, invoker, receiver);
+
+		// Damage has already been calculated, now just take it from the receivers HP
+		cout << "Health before" << RPGattributesMapper.get(*receiver)->getCurrentHealth() << endl;
+		RPGattributesMapper.get(*receiver)->setCurrentHealth(RPGattributesMapper.get(*receiver)->getCurrentHealth() - damage);
+		cout << "Health after" << RPGattributesMapper.get(*receiver)->getCurrentHealth() << endl;
+
+		if(animationMapper.get(*invoker) != NULL)
 		{
-			cout << "Health before" << RPGattributesMapper.get(*receiver)->getCurrentHealth() << endl;
-			RPGattributesMapper.get(*receiver)->setCurrentHealth(RPGattributesMapper.get(*receiver)->getCurrentHealth() - a->damageValue);
-			cout << "Health after" << RPGattributesMapper.get(*receiver)->getCurrentHealth() << endl;
+			animationMapper.get(*invoker)->setCurrentAnimation(ability->abilityAnimationFilepath);
 		}
 	}
 
@@ -97,5 +110,6 @@ private:
 	artemis::TagManager* tagManager;
 	artemis::GroupManager* groupManager;
 	artemis::ComponentMapper<CharacterRPGAttributes> RPGattributesMapper;
+	artemis::ComponentMapper<AnimationComponent> animationMapper;
 };
 #endif

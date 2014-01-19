@@ -18,13 +18,17 @@
 #include "MenuComponentRenderingSystem.h"
 #include "MenuComponentSystem.h"
 
+#include "CollisionboxUpdateSystem.h"
+#include "CollisionComponent.h"
+#include "CollisionSystem.h"
+#include "CollisionType.h"
+
+#include "CameraComponent.h"
+#include "CameraSystem.h"
 
 #include "TextureManager.h"
 
-//for file reading
-#include "json\json.h"
-#include <fstream>
-//end file reading
+#include "MapLoader.h"
 
 
 class GameState : public ScreenState
@@ -39,9 +43,8 @@ public:
 
 	virtual string getValue(){ return subjectValue; }
 	
-	void loadMap(const std::string filepath);
 	void addBackgroundEntity(int num, string& textureFilepath, bool collision);
-
+	void createPlayer(sf::RenderWindow& window);
 private:
 	artemis::World gameWorld;
 	string subjectValue;
@@ -54,10 +57,7 @@ private:
 	artemis::GroupManager* groupManager;
 	artemis::TagManager* tagManager;
 	
-
-	//TEMP
-	std::map<int, artemis::Entity*> backgroundMapping;
-	// END TEMP
+	MapLoader* mapLoader;
 
 };
 

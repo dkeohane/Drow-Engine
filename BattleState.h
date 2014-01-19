@@ -41,7 +41,8 @@ public:
 	// Very temp!
 	void createPlayer();
 	void createAttackComponents();
-
+	void createHUD(artemis::Entity& player, artemis::Entity& enemy);
+	void createEnemy();
 	static const enum battleStates
 	{
 		ACTION_DECISION,
@@ -62,13 +63,10 @@ private:
 	sf::Font font;
 	//untemp
 
-	MenuComponentSystem* mcs;
+	MenuComponentSystem* menuComponentSystem;
 	MenuComponentGroupRenderingSystem* mcsRenderer;
 	BattleSystem* battleSystem;
 	artemis::Entity* menuEntity;
-	
-	artemis::Entity* player;
-
 
 	//Managers
 	artemis::EntityManager* entityManager;

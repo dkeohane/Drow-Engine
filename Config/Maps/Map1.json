@@ -2,18 +2,32 @@
 {
     "NumberMap": 
     [
-    	{ "name" : 0, "textureFilepath" : "Media/Images/block0.png", "Collision" : "False"},
-        { "name" : 1, "textureFilepath" : "Media/Images/block1.png", "Collision" : "False"}
+    	{
+    	"name" : 0, 
+    	"textureFilepath" : "Media/Images/design2.png", 
+    	"Width" : 70,
+    	"Heigth" : 70,
+    	"Scale" : 1,
+    	"Collision" : false
+    	},
+        
+        {
+        "name" : 1, 
+        "textureFilepath" : "Media/Images/ground_rock.png",
+        "Width" : 70,
+    	"Heigth" : 70,
+    	"Scale" : 1,
+        "Collision" : true
+    	}
     ],
 
 	"Map1" :
 	[
 
-	[1,1,1,1,1,1,0],
-	[1,1,1,1,1,1,0],
-	[1,1,0,1,1,1,0],
-	[1,1,0,1,1,1,1]
-
+	[1,0,0,0,1],
+	[1,0,0,0,1],
+	[1,0,0,0,1],
+	[1,1,1,1,1]
 	]
 
 }

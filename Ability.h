@@ -11,8 +11,11 @@ struct Ability
 	
 	}
 
-	Ability(std::string abilityName, int damageValue, int healingValue)
-		: abilityName(abilityName), damageValue(damageValue), healingValue(healingValue)
+	Ability(std::string abilityName, int damageValue, int healingValue, string abilityAnimationFilepath)
+		: abilityName(abilityName), 
+		  damageValue(damageValue),
+		  healingValue(healingValue), 
+		  abilityAnimationFilepath(abilityAnimationFilepath)
 	{
 
 	}
@@ -20,6 +23,7 @@ struct Ability
 	std::string abilityName;
 	int damageValue;
 	int healingValue;
+	string abilityAnimationFilepath;
 };
 
 #endif

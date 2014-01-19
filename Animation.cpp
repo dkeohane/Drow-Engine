@@ -1,9 +1,9 @@
 #include "Animation.h"
 
 Animation::Animation()
-	: numFrames(0)
+	: numFrames(0), repeats(true)
 {
-
+	pClock.pause();
 }
 
 Animation::~Animation()

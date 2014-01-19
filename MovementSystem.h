@@ -42,26 +42,6 @@ public:
 
 	virtual void processEntity(artemis::Entity &e) 
 	{
-		/*
-		//get the current values of the x and y axis
-		float xVal = sf::Joystick::getAxisPosition(playerInputMapper.get(e)->getGamepadID(), sf::Joystick::X);
-		float yVal = sf::Joystick::getAxisPosition(playerInputMapper.get(e)->getGamepadID(), sf::Joystick::Y);
-
-		//if they are below the threshold, they might as well be 0
-		if(std::abs(xVal) < playerInputMapper.get(e)->getAxisThreshold()) 
-			xVal = 0;
-		if(std::abs(yVal) < playerInputMapper.get(e)->getAxisThreshold())
-			yVal = 0;
-
-		if(xVal != 0 || yVal != 0)
-		{
-			positionMapper.get(e)->setPosition(
-				positionMapper.get(e)->getPosition() + sf::Vector2f(velocityMapper.get(e)->getVelocityX() * xVal / 100,
-																	velocityMapper.get(e)->getVelocityY() * yVal / 100));
-		}
-		*/
-
-
 		joystick(e);
 	}
 

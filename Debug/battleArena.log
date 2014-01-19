@@ -1,4 +1,4 @@
-﻿Build started 1/14/2014 12:41:50 PM.
+﻿Build started 1/19/2014 3:55:34 PM.
      1>Project "C:\Users\Daniel\Documents\Visual Studio 2010\Projects\battleArena\battleArena\battleArena.vcxproj" on node 2 (clean target(s)).
      1>_PrepareForClean:
          Deleting file "Debug\battleArena.lastbuildstate".
@@ -6,4 +6,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.06
+Time Elapsed 00:00:00.02

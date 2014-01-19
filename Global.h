@@ -4,6 +4,7 @@
 #include <SFML\Graphics.hpp>
 #include <SFML\Audio.hpp>
 #include "Artemis/Artemis.h"
+#include "MathHelper.h"
 
 #include <iostream>
 #include <string>

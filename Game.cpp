@@ -45,8 +45,9 @@ void Game::Load()
 	availableStates["CreditsMenu"]->attach(this);
 	availableStates["BattleState"]->attach(this);
 
-	this->currentState = availableStates["MainMenu"];
-	//this->currentState = availableStates["BattleState"];
+	//this->currentState = availableStates["MainMenu"];
+	this->currentState = availableStates["BattleState"];
+	//this->currentState = availableStates["GameState"];
 }
 
 void Game::Update(I_Subject* theChangeSubject)

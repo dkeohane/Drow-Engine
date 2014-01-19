@@ -27,13 +27,14 @@ public:
 		bars = (*HUDMapper.get(e)).getHudBars();
 		CharacterRPGAttributes& cRPG = *RPGattributesMapper.get(e);
 
+
+		sf::IntRect tRext(0, 0, int((cRPG.getCurrentHealth() / cRPG.getMaxHealth()) * bars->at(0).bar.getSize().x), (int)bars->at(0).bar.getSize().y);
+
+		bars->at(0).bar.setTextureRect(tRext);
+		bars->at(0).bar.setScale((float)cRPG.getCurrentHealth() / (float)cRPG.getMaxHealth(), 1.0f);
+	
 		for(unsigned int i = 0; i < bars->size(); i++)
 		{
-			sf::IntRect tRext(0, 0, int((cRPG.getCurrentHealth() / cRPG.getMaxHealth()) * bars->at(i).bar.getSize().x), (int)bars->at(i).bar.getSize().y);
-			
-			bars->at(i).bar.setTextureRect(tRext);
-			bars->at(i).bar.setScale((float)cRPG.getCurrentHealth() / (float)cRPG.getMaxHealth(), 1.0f);
-
 			window->draw(bars->at(i).barBackground);
 			window->draw(bars->at(i).bar);
 		}

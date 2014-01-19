@@ -3,7 +3,6 @@
 
 #include "Artemis\Artemis.h"
 #include "Animation.h"
-#include "PausableClock.h"
 
 #include "I_Observer.h"
 
@@ -12,11 +11,9 @@ class AnimationComponent: public artemis::Component, public I_Observer
 public:
 	AnimationComponent(std::map<std::string, Animation*> *animationListPtr, std::map<std::string, sf::Texture*> textures) // textures should be removed once texture loader is added.
 	{
-		this->setAnimationList(animationListPtr);
-		this->pClock.restart();
-		this->onLoop = true;
+		currentAnimationPtr = NULL;
 		this->textures = textures;
-		sprite.setTexture(*textures["idle"]);
+		this->setAnimationList(animationListPtr);
 	}
 	
 	~AnimationComponent()
@@ -32,20 +29,10 @@ public:
 	sf::Sprite getSprite() const { return sprite; }
 	void setSprite(sf::Sprite& val) { sprite = val; }
 
-	//sf::Texture getTexture() const { return texture; }
-	//void setTexture(sf::Texture val) { texture = val; }
-	
-	bool OnLoop() const { return onLoop; }
-	void OnLoop(bool val) { onLoop = val; }
-
-	PausableClock* getClock() { return &pClock; }
-	void setClock(PausableClock val) { pClock = val; }
+	PausableClock* getCurrentAnimationClock(){ if(currentAnimationPtr != NULL) return this->currentAnimationPtr->getClock(); }
 
 	int getCurrentFrameIndex() const { return currentFrameIndex; }
 	void setCurrentFrameIndex(int val) { currentFrameIndex = val; }
-
-	void pauseCurrentAnimation(){ pClock.pause(); }
-	void resumeCurrentAnimation(){ pClock.resume(); }
 
 	Frame* getCurrentFramePtr() const { return currentFramePtr; }
 	void setCurrentFramePtr(Frame* val) { currentFramePtr = val; }
@@ -54,12 +41,28 @@ public:
 	void setCurrentAnimation(Animation* val) { currentAnimationPtr = val; }
 
 	void setCurrentAnimation(std::string animationName)
-	{ 
+	{
+		if (animationName == "Media/Images/attack.png")
+		{
+			cout << "IM HERE" << endl;
+		}
+
+		if(currentAnimationPtr != NULL)
+		{
+			currentAnimationPtr->pauseCurrentAnimation();
+		}
+
 		sprite.setTexture(*textures[animationName]);
-		currentAnimationPtr = (*animationListPtr)[animationName];
-		currentFramePtr = currentAnimationPtr->getFrameAt(0);
+		it = (*animationListPtr).find(animationName);
+		if(it != animationListPtr->end())
+		{
+			currentAnimationPtr = it->second;
+		}
 		currentFrameIndex = 0;
+		currentFramePtr = currentAnimationPtr->getFrameAt(currentFrameIndex);
 		this->setFrame(currentFramePtr->rect);
+
+		currentAnimationPtr->resumeCurrentAnimation();
 	}
 
 	void AnimationComponent::setAnimationList(std::map<std::string, Animation*> *animationListPtr)
@@ -67,10 +70,7 @@ public:
 		if(animationListPtr != NULL)
 		{
 			this->animationListPtr = animationListPtr;
-			currentAnimationPtr = animationListPtr->begin()->second;
-			currentFramePtr = currentAnimationPtr->getFrameAt(0);
-			currentFrameIndex = 0;
-			this->setFrame(currentFramePtr->rect);
+			setCurrentAnimation((++animationListPtr->begin())->first);
 		}
 	}
 
@@ -106,11 +106,13 @@ public:
 		this->setCurrentAnimation(currentAnimationString);
 	}
 
+	void pauseCurrentAnimation(){ currentAnimationPtr->pauseCurrentAnimation(); }
+	void resumeCurrentAnimation(){ currentAnimationPtr->resumeCurrentAnimation(); }
+	void restartClock(){ currentAnimationPtr->restartClock(); }
+
 private:
 	sf::Sprite sprite;
 
-	bool onLoop;
-	PausableClock pClock;
 	int currentFrameIndex;
 
 	Frame* currentFramePtr;

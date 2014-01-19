@@ -2,6 +2,7 @@
 #define ANIMATION_H
 
 #include "Frame.h"
+#include "PausableClock.h"
 
 class Animation
 {
@@ -29,7 +30,26 @@ public:
 	*/
 	Frame *getFrameAt(const unsigned int index) const;
 
+
+	bool getRepeats() const { return repeats; }
+	void setRepeats(bool val) { repeats = val; }
+
+	Frame* KeyFrame() const { return keyFrame; }
+	void setKeyFrame(Frame* val) { keyFrame = val; }
+	void setKeyFrame(unsigned int index){ if(index < numFrames) keyFrame = framePtrs.at(index); }
+
+	PausableClock* getClock() { return &pClock; }
+	void setClock(PausableClock val) { pClock = val; }
+
+	void pauseCurrentAnimation(){ pClock.pause(); }
+	void resumeCurrentAnimation(){ pClock.resume(); }
+	void restartClock(){ pClock.restart(); }
+
 private:
+	bool repeats;
+	Frame* keyFrame;
+	PausableClock pClock;
+
 	unsigned int numFrames;
 	std::vector<Frame*> framePtrs;
 	std::vector<Frame*>::const_iterator it;

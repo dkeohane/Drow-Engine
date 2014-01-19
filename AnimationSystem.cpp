@@ -10,16 +10,17 @@ void AnimationSystem::processEntity(artemis::Entity &e)
 void AnimationSystem::Update(artemis::Entity &e)
 {
 	AnimationComponent& animationComponent = *animationMapper.get(e);
-	
-	if(animationComponent.onLastFrame() || animationComponent.OnLoop())
+
+	if(animationComponent.getCurrentAnimationClock()->getElapsedTime() >= animationComponent.getCurrentFramePtr()->duration)
 	{
-		if(animationComponent.getClock()->getElapsedTime() >= animationComponent.getCurrentFramePtr()->duration)
+		if(animationComponent.getCurrentAnimation()->getRepeats() == true || (animationComponent.getCurrentAnimation()->getRepeats() == false && !animationComponent.onLastFrame()))
 		{
 			animationComponent.advanceFrame();
 			animationComponent.setFrame(animationComponent.getCurrentFramePtr()->rect);
-			animationComponent.getClock()->restart();
 		}
+		animationComponent.restartClock();
 	}
+
 }
 
 void AnimationSystem::Draw(artemis::Entity &e)

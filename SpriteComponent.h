@@ -13,8 +13,11 @@ public:
 		sprite.setTexture(this->texture);
 	}
 
-	sf::Sprite getSprite(){ return this->sprite; }
+	sf::Sprite* getSprite(){ return &sprite; }
 	void setSprite(sf::Sprite& sprite){ this->sprite = sprite; }
+
+	sf::Texture* getTexture(){ return &texture; }
+	void setTexture(sf::Texture& val) { texture = val; }
 
 	void centreOnOrigin()
 	{

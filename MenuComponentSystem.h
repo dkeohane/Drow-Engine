@@ -39,7 +39,10 @@ public:
 	std::string getMenuComponentsGroup() const { return menuComponentsGroup; }
 	void setMenuComponentsGroup(std::string val) { menuComponentsGroup = val; menuEntity = NULL; }
 
-	virtual string getValue(){ return subjectValue; }
+	virtual string getValue()
+	{ 
+		return subjectValue; 
+	}
 	virtual void processEntity(artemis::Entity &e);
 
 	void menuUpOrLeft();

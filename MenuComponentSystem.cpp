@@ -86,13 +86,13 @@ void MenuComponentSystem::Update(sf::Event& event)
 		if(event.joystickButton.button == 0) // 0 is A on 360 controller
 		{
 			subjectValue = std::string(menuTextMapper.get(*menuEntity)->getComponentText().getString());
-			cout << "subjectValue : " << subjectValue << endl;
 			this->currentlySelected = 0;
 			this->notify();
 		}
 		else if(event.joystickButton.button == 1) // 1 is B on 360 controller
 		{
 			subjectValue = "Back";
+			this->currentlySelected = 0;
 			this->notify();
 		}
 	}

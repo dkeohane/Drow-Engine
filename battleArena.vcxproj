@@ -21,10 +21,12 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationSystem.cpp" />
     <ClCompile Include="BattleSystem.cpp" />
+    <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="CreditsMenuState.cpp" />
     <ClCompile Include="json_reader.cpp" />
     <ClCompile Include="json_value.cpp" />
     <ClCompile Include="json_writer.cpp" />
+    <ClCompile Include="MapLoader.cpp" />
     <ClCompile Include="MenuComponentSystem.cpp" />
     <ClCompile Include="BattleState.cpp" />
     <ClCompile Include="Component.cpp" />
@@ -108,6 +110,10 @@
     <ClInclude Include="BattleHUDSystem.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="CameraSystem.h" />
+    <ClInclude Include="CollisionboxUpdateSystem.h" />
+    <ClInclude Include="CollisionComponent.h" />
+    <ClInclude Include="CollisionSystem.h" />
+    <ClInclude Include="CollisionType.h" />
     <ClInclude Include="CreditsMenuState.h" />
     <ClInclude Include="GuageBar.h" />
     <ClInclude Include="HUDComponent.h" />
@@ -120,6 +126,7 @@
     <ClInclude Include="json\value.h" />
     <ClInclude Include="json\writer.h" />
     <ClInclude Include="json_batchallocator.h" />
+    <ClInclude Include="MapLoader.h" />
     <ClInclude Include="MenuComponentGroupRenderingSystem.h" />
     <ClInclude Include="MenuComponentSystem.h" />
     <ClInclude Include="BattleState.h" />
@@ -149,6 +156,7 @@
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="SpriteSystem.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="Tile.h" />
     <ClInclude Include="VelocityComponent.h" />
   </ItemGroup>
   <ItemGroup>
