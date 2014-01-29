@@ -6,11 +6,6 @@ TextureManager* TextureManager::getInstance()
 	return &instance;
 }
 
-TextureManager::~TextureManager()
-{
-
-}
-
 void TextureManager::loadResource(const std::string filepath)
 {
 	sf::Texture *texturePtr = new sf::Texture();
@@ -22,13 +17,4 @@ void TextureManager::loadResource(const std::string filepath)
 	{
 		delete texturePtr;
 	}
-}
-
-sf::Texture* TextureManager::getResource(const std::string filepath)
-{
-	if(!isLoaded(filepath))
-	{
-		loadResource(filepath);
-	}
-	return resourceMap[filepath];
 }

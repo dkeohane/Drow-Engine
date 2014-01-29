@@ -1,0 +1,93 @@
+{
+	"Tag" : "Player",
+	"Group" : "Player",
+	"Speed" : { "x" : 6, "y" : 6 },
+	"Position" : { "x" : 200, "y" : 200},
+	"Movement" : true,
+	"Collision" : true,
+
+	"CharacterRPGAttributes" : 
+	{
+	"MaxHealth" : 100,
+	"CurrentHealth" : 100,
+	"Strength" : 10,
+	"Agility" : 10,
+	"Intelligence" : 10
+	},
+
+	"Animations":
+	[
+		{
+		"name" : "Media/Images/playerUp.png",
+		"origin" : { "x" : 0, "y" : 0 },
+		"frameCount" : 3,
+		"frameSize" : { "width" : 21, "height" : 25 },
+		"frameDuration" : 50
+		},
+
+		{
+		"name" : "Media/Images/playerDown2.png",
+		"origin" : { "x" : 0, "y" : 0 },
+		"frameCount" : 3,
+		"frameSize" : { "width" : 21, "height" : 25 },
+		"frameDuration" : 50
+		},
+
+		{
+		"name" : "Media/Images/playerLeft.png",
+		"origin" : { "x" : 0, "y" : 0 },
+		"frameCount" : 3,
+		"frameSize" : { "width" : 21, "height" : 25 },
+		"frameDuration" : 50
+		},
+
+		{
+		"name" : "Media/Images/playerRight.png",
+		"origin" : { "x" : 0, "y" : 0 },
+		"frameCount" : 3,
+		"frameSize" : { "width" : 21, "height" : 25 },
+		"frameDuration" : 50
+		},
+
+		{
+		"name" : "Media/Images/playerDown2.png",
+		"origin" : { "x" : 0, "y" : 0 },
+		"frameCount" : 1,
+		"frameSize" : { "width" : 21, "height" : 25 },
+		"frameDuration" : 500
+		}
+   ],
+
+   	"AbilityData" :
+	[ 
+		{
+		"abilityName" : "Ability_1",
+		"damageValue" : 10,
+		"healingValue" : 10,
+		"abilityAnimationFilepath" : "Media/Images/attack.png"
+		},
+
+		{
+		"abilityName" : "Ability_2",
+		"damageValue" : 10,
+		"healingValue" : 10,
+		"abilityAnimationFilepath" : "Media/Images/attack.png"
+		},
+
+		{
+		"abilityName" : "Ability_3",
+		"damageValue" : 10,
+		"healingValue" : 10,
+		"abilityAnimationFilepath" : "Media/Images/attack.png"
+		},
+
+		{
+		"abilityName" : "Ability_4",
+		"damageValue" : 10,
+		"healingValue" : 10,
+		"abilityAnimationFilepath" : "Media/Images/attack.png"
+		}
+	]
+}
+
+

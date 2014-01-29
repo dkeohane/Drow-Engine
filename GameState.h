@@ -19,19 +19,20 @@
 #include "MenuComponentSystem.h"
 
 #include "CollisionboxUpdateSystem.h"
+#include "AnimationCollisionboxUpdateSystem.h"
 #include "CollisionComponent.h"
 #include "CollisionSystem.h"
 #include "CollisionType.h"
 
 #include "CameraComponent.h"
+#include "ViewRelativePositionUpdateSystem.h"
 #include "CameraSystem.h"
 
 #include "TextureManager.h"
-
 #include "MapLoader.h"
 
 
-class GameState : public ScreenState
+class GameState : public ScreenState, public I_Observer
 {
 public:
 	GameState(sf::RenderWindow& window){ this->Load(window); }
@@ -40,16 +41,22 @@ public:
 	virtual void Load(sf::RenderWindow& window);
 	virtual void Draw(sf::RenderWindow& window);
 	virtual void Update(sf::Event& event);
-
+	virtual void Update(I_Subject* theChangeSubject);
 	virtual string getValue(){ return subjectValue; }
-	
-	void addBackgroundEntity(int num, string& textureFilepath, bool collision);
-	void createPlayer(sf::RenderWindow& window);
-private:
-	artemis::World gameWorld;
-	string subjectValue;
 
-	sf::View v;
+	static const enum GameplayStates
+	{
+		PLAYING,
+		PAUSED,
+		CHARACTER_DETAILS,
+		INVENTORY,
+		QUIT
+	};
+
+private:
+	string subjectValue;
+	artemis::World gameWorld;
+	GameplayStates currentState;
 
 	//Managers
 	artemis::EntityManager* entityManager;
@@ -58,7 +65,6 @@ private:
 	artemis::TagManager* tagManager;
 	
 	MapLoader* mapLoader;
-
 };
 
 #endif

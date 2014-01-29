@@ -29,9 +29,9 @@ void CollisionSystem::processCollisions(artemis::ImmutableBag<artemis::Entity*>*
 					direction = MathHelper::normalise(MathHelper::getDirection(posA,posB));
 					multA = MathHelper::mult(direction, speedA + force);
 					multB = MathHelper::mult(direction, speedB);
-
+					cout << "COLLISION " << endl;
 					positionMapper.get(*a)->setPosition(posA - multA);
-					//positionMapper.get(*b)->setPosition(posB + multB);
+					positionMapper.get(*b)->setPosition(posB + multB);
 				}
 			}
 		}

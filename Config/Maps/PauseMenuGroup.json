@@ -1,0 +1,34 @@
+{
+	"MenuTextComponents" :
+	[
+		{
+		"DisplayText" : "Inventory",
+		"Position" : { "x" : 70, "y" : 170 },
+		"Font" : "Media/Fonts/font1.ttf",
+		"SelectedColour" : { "R" : 0, "G" : 150, "B" : 150},
+		"DeselectedColour" : { "R" : 150, "G" : 150, "B" : 150},
+		"CharacterSize" : 40,
+		"Group" : "PauseMenuGroup"
+		},
+
+		{
+		"DisplayText" : "Character",
+		"Position" : { "x" : 70, "y" : 270 },
+		"Font" : "Media/Fonts/font1.ttf",
+		"SelectedColour" : { "R" : 0, "G" : 150, "B" : 150},
+		"DeselectedColour" : { "R" : 150, "G" : 150, "B" : 150},
+		"CharacterSize" : 40,
+		"Group" : "PauseMenuGroup"
+		},
+
+		{
+		"DisplayText" : "Quit",
+		"Position" : { "x" : 70, "y" : 370 },
+		"Font" : "Media/Fonts/font1.ttf",
+		"SelectedColour" : { "R" : 0, "G" : 150, "B" : 150},
+		"DeselectedColour" : { "R" : 150, "G" : 150, "B" : 150},
+		"CharacterSize" : 40,
+		"Group" : "PauseMenuGroup"
+		}
+	]
+}

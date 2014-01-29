@@ -1,0 +1,24 @@
+{
+	"MenuTextComponents" : 
+	[
+		{
+		"DisplayText" : "Attack",
+		"Position" : { "x" : 70, "y" : 170 },
+		"Font" : "Media/Fonts/font1.ttf",
+		"SelectedColour" : { "R" : 200, "G" : 0, "B" : 10},
+		"DeselectedColour" : { "R" : 10, "G" : 10, "B" : 10},
+		"CharacterSize" : 40,
+		"Group" : "ActionDecisionState"
+		},
+
+		{
+		"DisplayText" : "Run",
+		"Position" : { "x" : 70, "y" : 370 },
+		"Font" : "Media/Fonts/font1.ttf",
+		"SelectedColour" : { "R" : 200, "G" : 0, "B" : 10},
+		"DeselectedColour" : { "R" : 10, "G" : 10, "B" : 10},
+		"CharacterSize" : 40,
+		"Group" : "ActionDecisionState"
+		}
+	]
+}

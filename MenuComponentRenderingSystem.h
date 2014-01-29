@@ -25,10 +25,13 @@ public:
 
 	virtual void processEntity(artemis::Entity &e)
 	{
-		PositionComponent& p = *positionMapper.get(e);
-		sf::Text text = menuTextMapper.get(e)->getComponentText();
-		text.setPosition(p.getPosition());
-		window->draw(text);
+		if(menuTextMapper.get(e)->isActive())
+		{
+			PositionComponent& p = *positionMapper.get(e);
+			sf::Text text = menuTextMapper.get(e)->getComponentText();
+			text.setPosition(p.getPosition());
+			window->draw(text);
+		}
 	}
 
 private:

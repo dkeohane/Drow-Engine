@@ -43,11 +43,23 @@
     <Filter Include="Header Files\Commands">
       <UniqueIdentifier>{f7c3a1b3-e415-4490-a12b-34a56a63c580}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\json">
+    <Filter Include="Header Files\File IO">
+      <UniqueIdentifier>{35ab51b4-4d62-4193-94be-f1e1b345b029}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\File IO\json">
       <UniqueIdentifier>{c472faa2-a60d-437d-b10b-8fbc298b2282}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\json">
+    <Filter Include="Source Files\File IO">
+      <UniqueIdentifier>{fa825742-c18d-4177-add6-81b9c7ee1e8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File IO\json">
       <UniqueIdentifier>{49037039-7140-4992-81c0-b50bfe1598db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Items">
+      <UniqueIdentifier>{2a6546b2-c754-4b08-a448-22a246375fab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Items">
+      <UniqueIdentifier>{296fc818-2649-43bb-8779-4afa6ad96e7e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -96,9 +108,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SpriteSystem.cpp">
-      <Filter>Source Files\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="I_Subject.cpp">
       <Filter>Source Files\Observer</Filter>
     </ClCompile>
@@ -132,26 +141,29 @@
     <ClCompile Include="CreditsMenuState.cpp">
       <Filter>Source Files\States</Filter>
     </ClCompile>
-    <ClCompile Include="BattleSystem.cpp">
-      <Filter>Source Files\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="json_reader.cpp">
-      <Filter>Source Files\json</Filter>
+      <Filter>Source Files\File IO\json</Filter>
     </ClCompile>
     <ClCompile Include="json_value.cpp">
-      <Filter>Source Files\json</Filter>
+      <Filter>Source Files\File IO\json</Filter>
     </ClCompile>
     <ClCompile Include="json_writer.cpp">
-      <Filter>Source Files\json</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\File IO\json</Filter>
     </ClCompile>
     <ClCompile Include="CollisionSystem.cpp">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Source Files\File IO</Filter>
+    </ClCompile>
+    <ClCompile Include="FontManager.cpp">
+      <Filter>Source Files\File IO</Filter>
+    </ClCompile>
     <ClCompile Include="MapLoader.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\File IO</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthPotion.cpp">
+      <Filter>Source Files\Items</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -308,9 +320,6 @@
     <ClInclude Include="CreditsMenuState.h">
       <Filter>Header Files\States</Filter>
     </ClInclude>
-    <ClInclude Include="MenuComponentGroupRenderingSystem.h">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="CameraSystem.h">
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
@@ -318,31 +327,31 @@
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="json\autolink.h">
-      <Filter>Header Files\json</Filter>
+      <Filter>Header Files\File IO\json</Filter>
     </ClInclude>
     <ClInclude Include="json\config.h">
-      <Filter>Header Files\json</Filter>
+      <Filter>Header Files\File IO\json</Filter>
     </ClInclude>
     <ClInclude Include="json\features.h">
-      <Filter>Header Files\json</Filter>
+      <Filter>Header Files\File IO\json</Filter>
     </ClInclude>
     <ClInclude Include="json\forwards.h">
-      <Filter>Header Files\json</Filter>
+      <Filter>Header Files\File IO\json</Filter>
     </ClInclude>
     <ClInclude Include="json\json.h">
-      <Filter>Header Files\json</Filter>
+      <Filter>Header Files\File IO\json</Filter>
     </ClInclude>
     <ClInclude Include="json\reader.h">
-      <Filter>Header Files\json</Filter>
+      <Filter>Header Files\File IO\json</Filter>
     </ClInclude>
     <ClInclude Include="json\value.h">
-      <Filter>Header Files\json</Filter>
+      <Filter>Header Files\File IO\json</Filter>
     </ClInclude>
     <ClInclude Include="json\writer.h">
-      <Filter>Header Files\json</Filter>
+      <Filter>Header Files\File IO\json</Filter>
     </ClInclude>
     <ClInclude Include="json_batchallocator.h">
-      <Filter>Source Files\json</Filter>
+      <Filter>Source Files\File IO\json</Filter>
     </ClInclude>
     <ClInclude Include="HUDComponent.h">
       <Filter>Header Files\Components</Filter>
@@ -355,9 +364,6 @@
     </ClInclude>
     <ClInclude Include="MovementComponent.h">
       <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureManager.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CollisionSystem.h">
       <Filter>Header Files\Systems</Filter>
@@ -374,19 +380,55 @@
     <ClInclude Include="Tile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ViewRelativePositionUpdateSystem.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewPositionComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationCollisionBoxUpdateSystem.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Header Files\File IO</Filter>
+    </ClInclude>
     <ClInclude Include="MapLoader.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\File IO</Filter>
+    </ClInclude>
+    <ClInclude Include="GameResourceManager.h">
+      <Filter>Header Files\File IO</Filter>
+    </ClInclude>
+    <ClInclude Include="FontManager.h">
+      <Filter>Header Files\File IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="EquipableItem.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="UsableItem.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthPotion.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="ActivatableComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuComponentGroupRenderingSystem.h">
+      <Filter>Header Files\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="json_internalarray.inl">
-      <Filter>Source Files\json</Filter>
+      <Filter>Source Files\File IO\json</Filter>
     </None>
     <None Include="json_internalmap.inl">
-      <Filter>Source Files\json</Filter>
+      <Filter>Source Files\File IO\json</Filter>
     </None>
     <None Include="json_valueiterator.inl">
-      <Filter>Source Files\json</Filter>
+      <Filter>Source Files\File IO\json</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -1,0 +1,34 @@
+{
+	"MenuTextComponents" :
+	[
+		{
+		"DisplayText" : "Play",
+		"Position" : { "x" : 70, "y" : 70 },
+		"Font" : "Media/Fonts/font1.ttf",
+		"SelectedColour" : { "R" : 150, "G" : 150, "B" : 150},
+		"DeselectedColour" : { "R" : 150, "G" : 150, "B" : 150},
+		"CharacterSize" : 40,
+		"Group" : "MainMenuComponents"
+		},
+
+		{
+		"DisplayText" : "Credits",
+		"Position" : { "x" : 270, "y" : 70 },
+		"Font" : "Media/Fonts/font1.ttf",
+		"SelectedColour" : { "R" : 150, "G" : 150, "B" : 150},
+		"DeselectedColour" : { "R" : 150, "G" : 150, "B" : 150},
+		"CharacterSize" : 40,
+		"Group" : "MainMenuComponents"
+		},
+
+		{
+		"DisplayText" : "Quit",
+		"Position" : { "x" : 430, "y" : 70 },
+		"Font" : "Media/Fonts/font1.ttf",
+		"SelectedColour" : { "R" : 150, "G" : 150, "B" : 150},
+		"DeselectedColour" : { "R" : 150, "G" : 150, "B" : 150},
+		"CharacterSize" : 40,
+		"Group" : "MainMenuComponents"
+		}
+	]
+}

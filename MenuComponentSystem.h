@@ -21,7 +21,9 @@ public:
 		time.restart();
 		this->menuComponentsGroup = menuComponentsGroup;
 		menuEntity = NULL;
+
 		addComponentType<MenuTextComponent>();
+		addComponentType<PositionComponent>();
 		addComponentType<PlayerInputComponent>();
 	}
 
@@ -33,9 +35,10 @@ public:
 		menuTextMapper.init(*world);
 		playerInputMapper.init(*world);
 	}
+	
+	virtual void processEntity(artemis::Entity &e);
 
 	void Update(sf::Event& event);
-
 	std::string getMenuComponentsGroup() const { return menuComponentsGroup; }
 	void setMenuComponentsGroup(std::string val) { menuComponentsGroup = val; menuEntity = NULL; }
 
@@ -43,7 +46,6 @@ public:
 	{ 
 		return subjectValue; 
 	}
-	virtual void processEntity(artemis::Entity &e);
 
 	void menuUpOrLeft();
 	void menuDownOrRight();

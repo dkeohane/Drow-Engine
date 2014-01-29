@@ -26,7 +26,7 @@ public:
 		delete animationListPtr;
 	}
 
-	sf::Sprite getSprite() const { return sprite; }
+	sf::Sprite* getSprite(){ return &sprite; }
 	void setSprite(sf::Sprite& val) { sprite = val; }
 
 	PausableClock* getCurrentAnimationClock(){ if(currentAnimationPtr != NULL) return this->currentAnimationPtr->getClock(); }
@@ -42,11 +42,6 @@ public:
 
 	void setCurrentAnimation(std::string animationName)
 	{
-		if (animationName == "Media/Images/attack.png")
-		{
-			cout << "IM HERE" << endl;
-		}
-
 		if(currentAnimationPtr != NULL)
 		{
 			currentAnimationPtr->pauseCurrentAnimation();
@@ -90,7 +85,6 @@ public:
 		//set the texture rectangle in the sprite sheet
 		sprite.setTextureRect(rect);
 		sprite.setOrigin((float)rect.width / 2, (float)rect.height / 2);
-		//updateCollisionBox();
 	}
 
 	void centreOnOrigin()

@@ -11,6 +11,7 @@ class CollisionboxUpdateSystem: public artemis::EntityProcessingSystem
 public:
 	CollisionboxUpdateSystem(sf::RenderWindow* window)
 	{
+		addComponentType<SpriteComponent>();
 		addComponentType<CollisionComponent>();
 		addComponentType<PositionComponent>();
 		width = height = 0;
@@ -29,23 +30,13 @@ public:
 
 	virtual void processEntity(artemis::Entity &e)
 	{
-		CollisionComponent& c = *collisionMapper.get(e);
-		collisionBox = c.getCollisionBox();
+		collisionBox = (*collisionMapper.get(e)).getCollisionBox();
 		PositionComponent& p = *positionMapper.get(e);
+		sprite = spriteMapper.get(e)->getSprite();
 
-		if(spriteMapper.get(e))
-		{
-			spriteMapper.get(e)->centreOnOrigin();
-			sf::Sprite* sprite = spriteMapper.get(e)->getSprite();
-			sf::IntRect r = spriteMapper.get(e)->getSprite()->getTextureRect();
-			width = int(sprite->getTextureRect().width * sprite->getScale().x);
-			height = int(sprite->getTextureRect().height * sprite->getScale().y);
-		}
-		else
-		{
-			width = collisionBox->width;
-			height = collisionBox->height;
-		}
+		width = int(sprite->getTextureRect().width * sprite->getScale().x);
+		height = int(sprite->getTextureRect().height * sprite->getScale().y);
+
 		collisionBox->left = (int)(p.getPosX() - width / 2);
 		collisionBox->top = (int)(p.getPosY() - height / 2);
 		collisionBox->width = width;
@@ -66,6 +57,7 @@ public:
 
 private:
 	float width, height;
+	sf::Sprite* sprite;
 	sf::RectangleShape shape;
 	sf::RenderWindow* window;
 

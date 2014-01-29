@@ -23,15 +23,15 @@ public:
 		ENEMYTURN
 	};
 
-
 	virtual void initialize() 
 	{
 		RPGattributesMapper.init(*world);
 		animationMapper.init(*world);
+
 		groupManager = world->getGroupManager();
 		tagManager = world->getTagManager();
+
 		currentTurn = PLAYERTURN;
-		attack = "";
 	}
 
 	virtual void processEntity(artemis::Entity &e){ /* blank */ }
@@ -39,7 +39,7 @@ public:
 	void setAttack(string attack)
 	{
 		abilitySelection(attack);
-		abilitySelection("Ability_2");
+		//abilitySelection("Ability_2");
 	}
 	
 	void abilitySelection(string abilityName)
@@ -50,13 +50,13 @@ public:
 			if(currentTurn == PLAYERTURN)
 			{
 				Ability* a = RPGattributesMapper.get(*player)->getAbility(abilityName);
-				useAbility(a, player, enemy);
+				usePlayerAbility(a);
 				currentTurn = ENEMYTURN;
 			}
 			else if(currentTurn == ENEMYTURN)
 			{
 				Ability* a = RPGattributesMapper.get(*enemy)->getAbility(abilityName);
-				useAbility(a, enemy, player);
+				useEnemyAbility(a);
 				currentTurn = PLAYERTURN;
 			}
 		}
@@ -72,40 +72,87 @@ public:
 		return 10.0;
 	}
 
-	void useAbility(Ability* ability, artemis::Entity* invoker, artemis::Entity* receiver)
+	double calculateExperienceGain()
 	{
-		double damage = calculateDamage(ability, invoker, receiver);
+		return 5.0;
+	}
 
-		// Damage has already been calculated, now just take it from the receivers HP
-		cout << "Health before" << RPGattributesMapper.get(*receiver)->getCurrentHealth() << endl;
-		RPGattributesMapper.get(*receiver)->setCurrentHealth(RPGattributesMapper.get(*receiver)->getCurrentHealth() - damage);
-		cout << "Health after" << RPGattributesMapper.get(*receiver)->getCurrentHealth() << endl;
+	void usePlayerAbility(Ability* ability)
+	{
+		double damage = calculateDamage(ability, player, enemy);
 
-		if(animationMapper.get(*invoker) != NULL)
+		//animationMapper.get(*playerAttack)->setCurrentAnimation(ability->abilityAnimationFilepath);
+
+		/*
+		AnimationComponent* animationComponent = animationMapper.get(*playerAttack);
+		
+		// will loop until we reach the end of the current animation
+		while(!animationComponent->onLastFrame()) 
 		{
-			animationMapper.get(*invoker)->setCurrentAnimation(ability->abilityAnimationFilepath);
+			if(animationComponent->getCurrentAnimationClock()->getElapsedTime() >= animationComponent->getCurrentFramePtr()->duration)
+			{
+				if(animationComponent->getCurrentAnimation()->getRepeats() == true || (animationComponent->getCurrentAnimation()->getRepeats() == false && !animationComponent->onLastFrame()))
+				{
+					animationComponent->advanceFrame();
+					animationComponent->setFrame(animationComponent->getCurrentFramePtr()->rect);
+				}
+				animationComponent->restartClock();
+			}
+			//window->draw(animationComponent->getSprite());
 		}
+		animationComponent->pauseCurrentAnimation();
+		animationComponent->setFrame(sf::IntRect());
+		*/
+
+		// Damage has already been calculated, and the attack animation is over, now to take hp from the enemy
+		RPGattributesMapper.get(*enemy)->setCurrentHealth(RPGattributesMapper.get(*enemy)->getCurrentHealth() - damage);
+	}
+
+	void useEnemyAbility(Ability* ability)
+	{
+		double damage = calculateDamage(ability, enemy, player);
+
+		
+		//animationMapper.get(*enemyAttack)->setCurrentAnimation(ability->abilityAnimationFilepath);
+		/*
+		AnimationComponent* animationComponent = animationMapper.get(*enemyAttack);
+		// will loop until we reach the end of the current animation
+		while(!animationComponent->onLastFrame()) 
+		{
+			if(animationComponent->getCurrentAnimationClock()->getElapsedTime() >= animationComponent->getCurrentFramePtr()->duration)
+			{
+				if(animationComponent->getCurrentAnimation()->getRepeats() == true || (animationComponent->getCurrentAnimation()->getRepeats() == false && !animationComponent->onLastFrame()))
+				{
+					animationComponent->advanceFrame();
+					animationComponent->setFrame(animationComponent->getCurrentFramePtr()->rect);
+				}
+				animationComponent->restartClock();
+			}
+		}
+		animationComponent->pauseCurrentAnimation();
+		animationComponent->setFrame(sf::IntRect());
+		*/
+		RPGattributesMapper.get(*player)->setCurrentHealth(RPGattributesMapper.get(*player)->getCurrentHealth() - damage);
 	}
 
 	void reset()
 	{
 		Turn currentTurn = PLAYERTURN;
-		string attack = "";
-
-		artemis::Entity* player = NULL;
-		artemis::Entity* enemy = NULL;
+		player = enemy = NULL;
 	}
 
 	void setPlayer(artemis::Entity* player){ this->player = player; }
 	void setEnemy(artemis::Entity* enemy){ this->enemy = enemy; }
+	void setPlayerAttack(artemis::Entity* playerAttack){ this->playerAttack = playerAttack; }
+	void setEnemyAttack(artemis::Entity* enemyAttack){ this->enemyAttack = enemyAttack; }
 
 private:
 	Turn currentTurn;
-	string attack;
 
-	artemis::Entity* e;
 	artemis::Entity* player;
 	artemis::Entity* enemy;
+	artemis::Entity* playerAttack;
+	artemis::Entity* enemyAttack;
 
 	artemis::TagManager* tagManager;
 	artemis::GroupManager* groupManager;

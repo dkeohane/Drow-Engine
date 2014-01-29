@@ -8,7 +8,13 @@
     	"Width" : 70,
     	"Heigth" : 70,
     	"Scale" : 1,
-    	"Collision" : false
+    	"Collision" : false,
+        "RandomEncounter" : 
+            { 
+                "EncounterChance" : 15, 
+                "MinLevel" : 10, 
+                "MaxLevel" : 20 
+            }
     	},
         
         {
@@ -17,17 +23,40 @@
         "Width" : 70,
     	"Heigth" : 70,
     	"Scale" : 1,
-        "Collision" : true
+        "Collision" : true,
+        "RandomEncounter" : {}
     	}
     ],
 
 	"Map1" :
 	[
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+	[1,1,1,0,0,0,0,1,0,0,0,0,0,0,1,1],
+	[1,1,0,0,0,0,0,1,0,0,0,0,0,0,1,1],
+	[1,1,0,0,0,0,0,1,0,0,0,0,0,0,1,1],
+	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    [1,1,0,0,0,0,0,1,0,0,0,0,0,0,1,1],
+    [1,1,0,0,0,0,0,1,0,0,0,0,0,0,1,1],
+    [1,1,0,0,0,0,0,1,0,0,0,0,0,0,1,1],
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 
-	[1,0,0,0,1],
-	[1,0,0,0,1],
-	[1,0,0,0,1],
-	[1,1,1,1,1]
-	]
+	],
 
+    "Architecture" :
+    [
+        {
+        "textureFilepath" : "Media/Images/Houses/greenHouse2.png",
+        "Position" : { "x" : 300, "y" : 300},
+        "Scale" : {"x" : 2, "y" : 2},
+        "Collision" : true
+        },
+        {
+        "textureFilepath" : "Media/Images/Houses/blueHouse2.png",
+        "Position" : { "x" : 600, "y" : 300},
+        "Scale" : {"x" : 2, "y" : 2},
+        "Collision" : true
+        }
+    ]
 }

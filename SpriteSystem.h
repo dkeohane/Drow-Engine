@@ -1,11 +1,9 @@
-#ifndef SPRITE_SYSTEM_H
-#define SPRITE_SYSTEM_H
+#ifndef SPRITESYSTEM_H
+#define SPRITESYSTEM_H
 
-#include "Artemis\EntityProcessingSystem.h"
+#include "Global.h"
 #include "PositionComponent.h"
 #include "SpriteComponent.h"
-#include <SFML/Window.hpp>
-
 
 class SpriteSystem : public artemis::EntityProcessingSystem
 {
@@ -17,19 +15,29 @@ public:
 		addComponentType<PositionComponent>();
 	};
 
-	void processEntity(artemis::Entity &e);
-
 	virtual void initialize()
 	{
 		spriteMapper.init(*world);
 		positionMapper.init(*world);
 	};
 
+	void processEntity(artemis::Entity &e)
+	{
+		PositionComponent& p = *positionMapper.get(e);
+		if(spriteMapper.get(e)->isActive())
+		{
+			s = spriteMapper.get(e)->getSprite();
+			s->setPosition(p.getPosition());
+			window->draw(*s);
+		}
+	}
+
 private:
+	sf::Sprite* s;
 	sf::RenderWindow* window;
+
 	artemis::ComponentMapper<SpriteComponent> spriteMapper;
 	artemis::ComponentMapper<PositionComponent> positionMapper;
-
 };
 
-#endif // $(Guard token)
+#endif

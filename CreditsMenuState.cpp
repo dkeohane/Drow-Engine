@@ -1,7 +1,5 @@
 #include "CreditsMenuState.h"
 
-
-
 void CreditsMenuState::Load(sf::RenderWindow& window)
 {
 	entityManager = creditsWorld.getEntityManager();
@@ -20,12 +18,9 @@ void CreditsMenuState::Load(sf::RenderWindow& window)
 	background.addComponent(new SpriteComponent(*TextureManager::getInstance()->getResource("Media/Images/MainMenuBackground.jpg")));
 	background.refresh();
 
-	sf::Font font;
-	font.loadFromFile("Media/Fonts/font1.ttf");
-
 	artemis::Entity& back = entityManager->create();
 	back.addComponent(new PositionComponent(70,70));
-	back.addComponent(new MenuTextComponent("Return", font, sf::Color::Green, sf::Color::White, 40));
+	back.addComponent(new MenuTextComponent("Return", *FontManager::getInstance()->getResource("Media/Fonts/font1.ttf"), sf::Color::Green, sf::Color::White, 40));
 	back.addComponent(new PlayerInputComponent(0, 30));
 	back.refresh();
 

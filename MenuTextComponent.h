@@ -2,9 +2,9 @@
 #define MENUTEXTCOMPONENT_H
 
 #include "SFML/graphics.hpp"
-#include "Artemis\Component.h"
+#include "ActivatableComponent.h"
 
-class MenuTextComponent : public artemis::Component
+class MenuTextComponent : public ActivatableComponent
 {
 public:
 	MenuTextComponent(){ componentText.setString("DEFAULT"); }

@@ -13,6 +13,7 @@
 #include "MenuComponentRenderingSystem.h"
 
 #include "TextureManager.h"
+#include "FontManager.h"
 
 class CreditsMenuState: public ScreenState, public I_Observer
 {

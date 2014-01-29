@@ -9,10 +9,10 @@
 class CharacterRPGAttributes : public artemis::Component
 {
 public:
-	/*CharacterRPGAttributes(std::vector<Ability> abilities)
+	CharacterRPGAttributes()
 	{
-		this->abilities = abilities;
-	}*/
+
+	}
 
 	CharacterRPGAttributes(std::map<string, Ability> abilities)
 	{
@@ -31,6 +31,16 @@ public:
 	double getStrength(){ return strength; }
 	double getAgility(){ return agility; }
 	double getIntelligence(){ return intelligence; }
+
+	void increaseCurrentHealth(double val)
+	{ 
+		if(currentHealth + val < maxHealth)
+		{
+			currentHealth += val;
+		}else{
+			currentHealth = maxHealth;
+		}
+	}
 
 	void setCurrentHealth(double val) { currentHealth = val; }
 	void setMaxHealth(double val) { maxHealth = val; }

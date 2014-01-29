@@ -10,6 +10,7 @@
 #include "MenuComponentRenderingSystem.h"
 
 #include "TextureManager.h"
+#include "MapLoader.h"
 
 class MainMenuState : public ScreenState, public I_Observer
 {
@@ -28,8 +29,8 @@ public:
 
 private:
 	artemis::World menuWorld;
-	std::string menuGrouping;
 	std::string subjectValue;
+	MapLoader* mapLoader;
 
 	//Managers
 	artemis::EntityManager* entityManager;

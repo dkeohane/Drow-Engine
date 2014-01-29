@@ -26,7 +26,7 @@ public:
 
 	virtual void processEntity(artemis::Entity &e)
 	{
-		if(groupManager->isInGroup(menuComponentsGroup, e))
+		if(groupManager->isInGroup(menuComponentsGroup, e) && menuTextMapper.get(e)->isActive())
 		{
 			PositionComponent& p = *positionMapper.get(e);
 			sf::Text text = menuTextMapper.get(e)->getComponentText();

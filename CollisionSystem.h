@@ -23,7 +23,7 @@ public:
 		velocityMapper.init(*world);
 		groupManager = world->getGroupManager();
 
-		force = sf::Vector2f(0.5f,0.5f) ;
+		force = sf::Vector2f(10.0f, 10.0f);
 	}
 
 	virtual void processEntities(artemis::ImmutableBag<artemis::Entity*>& bag)

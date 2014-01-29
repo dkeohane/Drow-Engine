@@ -5,8 +5,8 @@
 
 struct Tile
 {
-	Tile(int ID, sf::Texture texture, bool collision)
-		: ID(ID), texture(texture), collision(collision)
+	Tile(int ID, sf::Texture texture, bool collision, int encounterChance, int minLevel, int maxLevel)
+		: ID(ID), texture(texture), collision(collision), encounterChance(encounterChance), minLevel(minLevel), maxLevel(maxLevel)
 	{
 
 	}
@@ -14,6 +14,7 @@ struct Tile
 	int ID; 
 	sf::Texture texture;
 	bool collision;
+	int encounterChance, minLevel, maxLevel;
 };
 
 #endif

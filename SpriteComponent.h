@@ -2,13 +2,14 @@
 #define SPRITECOMPONENT_H
 
 #include "SFML/graphics.hpp"
-#include "Artemis\Component.h"
+#include "ActivatableComponent.h"
 
-class SpriteComponent : public artemis::Component
+class SpriteComponent : public ActivatableComponent
 {
 public:
 	SpriteComponent(sf::Texture& texture)
 	{
+		//this->setActive(true);
 		this->texture = texture;
 		sprite.setTexture(this->texture);
 	}
@@ -26,7 +27,7 @@ public:
 		sprite.setOrigin(origin);
 	}
 
-private:
+protected:
 	sf::Texture texture;
 	sf::Sprite sprite;
 };

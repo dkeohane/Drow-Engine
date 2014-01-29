@@ -16,11 +16,9 @@
 #include "MenuComponentSystem.h"
 #include "BattleSystem.h"
 #include "BattleHUDSystem.h"
-
-//temp
 #include "MenuComponentGroupRenderingSystem.h"
-// end temp
 
+#include "MapLoader.h"
 #include "TextureManager.h"
 
 class BattleState: public ScreenState, public I_Observer
@@ -38,12 +36,10 @@ public:
 	// Subject getValue
 	virtual string getValue(){ return "GameState"; }
 
-	// Very temp!
-	void createPlayer();
-	void createAttackComponents();
 	void createHUD(artemis::Entity& player, artemis::Entity& enemy);
 	void createEnemy();
-	static const enum battleStates
+
+	static const enum BattleStates
 	{
 		ACTION_DECISION,
 		ATTACK_DECISION,
@@ -57,11 +53,7 @@ private:
 	artemis::World battleWorld;
 	string subjectValue;
 
-	battleStates currentState;
-
-	//temp
-	sf::Font font;
-	//untemp
+	BattleStates currentState;
 
 	MenuComponentSystem* menuComponentSystem;
 	MenuComponentGroupRenderingSystem* mcsRenderer;
@@ -73,6 +65,8 @@ private:
 	artemis::SystemManager* systemManager;
 	artemis::GroupManager* groupManager;
 	artemis::TagManager* tagManager;
+
+	MapLoader* mapLoader;
 
 	std::vector<artemis::Entity*> playerAttacks;
 };

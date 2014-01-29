@@ -1,6 +1,5 @@
 #include "Game.h"
 
-
 Game::Game(){ }
 
 Game::~Game(){ }
@@ -35,6 +34,11 @@ void Game::Load()
 	window.create(sf::VideoMode(1280, 800), "Drow Engine");
 	window.setKeyRepeatEnabled(false);
 
+	fadeSprite.setTexture(*TextureManager::getInstance()->getResource("Media/Images/background1.png"));
+	sf::Color color = fadeSprite.getColor();
+	color.a = 0;
+	fadeSprite.setColor(color);
+
 	availableStates["GameState"] = createState(std::string("GameState"));
 	availableStates["MainMenu"] = createState(std::string("MainMenu"));
 	availableStates["CreditsMenu"] = createState(std::string("CreditsMenu"));
@@ -46,8 +50,8 @@ void Game::Load()
 	availableStates["BattleState"]->attach(this);
 
 	//this->currentState = availableStates["MainMenu"];
-	this->currentState = availableStates["BattleState"];
-	//this->currentState = availableStates["GameState"];
+	//this->currentState = availableStates["BattleState"];
+	this->currentState = availableStates["GameState"];
 }
 
 void Game::Update(I_Subject* theChangeSubject)
@@ -56,7 +60,10 @@ void Game::Update(I_Subject* theChangeSubject)
 	{
 		// Changes the menu state
 		currentStateString = theChangeSubject->getValue();
+
+		fadeIn();
 		setCurrentState(availableStates[currentStateString]);
+		fadeOut();
 	}else{
 		//flush and close
 		window.close();
@@ -84,4 +91,32 @@ ScreenState* Game::createState(std::string& stateType)
 		returnState = new BattleState(this->window);
 	}
 	return returnState;
+}
+
+void Game::fadeIn()
+{
+	while((int)fadeSprite.getColor().a < 255)
+	{
+		sf::Color color = fadeSprite.getColor();
+		color.a+=5;
+		fadeSprite.setColor(color);
+		
+		window.clear();
+		window.draw(fadeSprite);
+		window.display();
+	}
+}
+
+void Game::fadeOut()
+{
+	while(fadeSprite.getColor().a > 0)
+	{
+		sf::Color color = fadeSprite.getColor();
+		color.a-=5;
+		fadeSprite.setColor(color);
+
+		window.clear();
+		window.draw(fadeSprite);
+		window.display();
+	}
 }
