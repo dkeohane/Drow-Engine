@@ -30,8 +30,10 @@ public:
 	{
 		artemis::ImmutableBag<artemis::Entity*>* players = groupManager->getEntities("Player");
 		artemis::ImmutableBag<artemis::Entity*>* walls = groupManager->getEntities("Wall");
+		artemis::ImmutableBag<artemis::Entity*>* architecture = groupManager->getEntities("Architecture");
 
 		processCollisions(players, walls);
+		processCollisions(players, architecture);
 	}
 
 	virtual void processEntity(artemis::Entity &e)

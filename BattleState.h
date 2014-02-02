@@ -8,7 +8,7 @@
 #include "PositionComponent.h"
 #include "SpriteComponent.h"
 #include "VelocityComponent.h"
-#include "CharacterRPGAttributes.h"
+#include "CharacterRPGComponent.h"
 
 // Systems
 #include "SpriteSystem.h"

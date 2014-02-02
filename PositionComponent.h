@@ -11,6 +11,7 @@ public:
 		this->posX = posX;
 		this->posY = posY;
 	};
+	~PositionComponent(){}
 
 	float getPosX() const { return posX; }
 	void setPosX(float val) { posX = val; }

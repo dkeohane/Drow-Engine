@@ -3,7 +3,7 @@
 
 #include "Global.h"
 #include "HUDComponent.h"
-#include "CharacterRPGAttributes.h"
+#include "CharacterRPGComponent.h"
 
 class BattleHUDSystem: public artemis::EntityProcessingSystem
 {
@@ -12,7 +12,7 @@ public:
 	{
 		this->window = window;
 		addComponentType<HUDComponent>();
-		addComponentType<CharacterRPGAttributes>();
+		addComponentType<CharacterRPGComponent>();
 	}
 	~BattleHUDSystem(){}
 
@@ -25,13 +25,13 @@ public:
 	virtual void processEntity(artemis::Entity &e)
 	{
 		bars = (*HUDMapper.get(e)).getHudBars();
-		CharacterRPGAttributes& cRPG = *RPGattributesMapper.get(e);
+		CharacterRPGComponent& cRPG = *RPGattributesMapper.get(e);
 
 
-		sf::IntRect tRext(0, 0, int((cRPG.getCurrentHealth() / cRPG.getMaxHealth()) * bars->at(0).bar.getSize().x), (int)bars->at(0).bar.getSize().y);
+		sf::IntRect tRext(0, 0, int((cRPG.getAttributeValue(CharacterAttributes::CURRENTHEALTH) / cRPG.getAttributeValue(CharacterAttributes::MAXHEALTH)) * bars->at(0).bar.getSize().x), (int)bars->at(0).bar.getSize().y);
 
 		bars->at(0).bar.setTextureRect(tRext);
-		bars->at(0).bar.setScale((float)cRPG.getCurrentHealth() / (float)cRPG.getMaxHealth(), 1.0f);
+		bars->at(0).bar.setScale((float)cRPG.getAttributeValue(CharacterAttributes::CURRENTHEALTH) / (float)cRPG.getAttributeValue(CharacterAttributes::MAXHEALTH), 1.0f);
 	
 		for(unsigned int i = 0; i < bars->size(); i++)
 		{
@@ -45,6 +45,6 @@ private:
 
 	std::vector<GuageBar>* bars;
 	artemis::ComponentMapper<HUDComponent> HUDMapper;
-	artemis::ComponentMapper<CharacterRPGAttributes> RPGattributesMapper;
+	artemis::ComponentMapper<CharacterRPGComponent> RPGattributesMapper;
 };
 #endif

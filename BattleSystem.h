@@ -3,7 +3,7 @@
 
 #include "Global.h"
 
-#include "CharacterRPGAttributes.h"
+#include "CharacterRPGComponent.h"
 #include "AnimationComponent.h"
 
 class BattleSystem: public artemis::EntityProcessingSystem
@@ -11,7 +11,7 @@ class BattleSystem: public artemis::EntityProcessingSystem
 public:
 	BattleSystem(artemis::Entity* player, artemis::Entity* enemy)
 	{
-		addComponentType<CharacterRPGAttributes>();
+		addComponentType<CharacterRPGComponent>();
 		setPlayer(player);
 		setEnemy(enemy);
 	}
@@ -45,7 +45,7 @@ public:
 	void abilitySelection(string abilityName)
 	{
 		
-		if(RPGattributesMapper.get(*player)->getCurrentHealth() > 0 && RPGattributesMapper.get(*enemy)->getCurrentHealth() > 0)
+		if(RPGattributesMapper.get(*player)->getAttributeValue(CharacterAttributes::CURRENTHEALTH) > 0 && RPGattributesMapper.get(*enemy)->getAttributeValue(CharacterAttributes::CURRENTHEALTH) > 0)
 		{
 			if(currentTurn == PLAYERTURN)
 			{
@@ -105,7 +105,7 @@ public:
 		*/
 
 		// Damage has already been calculated, and the attack animation is over, now to take hp from the enemy
-		RPGattributesMapper.get(*enemy)->setCurrentHealth(RPGattributesMapper.get(*enemy)->getCurrentHealth() - damage);
+		RPGattributesMapper.get(*enemy)->setAttributeValue(CharacterAttributes::CURRENTHEALTH, RPGattributesMapper.get(*enemy)->getAttributeValue(CharacterAttributes::CURRENTHEALTH) - damage);
 	}
 
 	void useEnemyAbility(Ability* ability)
@@ -132,7 +132,7 @@ public:
 		animationComponent->pauseCurrentAnimation();
 		animationComponent->setFrame(sf::IntRect());
 		*/
-		RPGattributesMapper.get(*player)->setCurrentHealth(RPGattributesMapper.get(*player)->getCurrentHealth() - damage);
+		RPGattributesMapper.get(*player)->setAttributeValue(CharacterAttributes::CURRENTHEALTH, RPGattributesMapper.get(*player)->getAttributeValue(CharacterAttributes::CURRENTHEALTH) - damage);
 	}
 
 	void reset()
@@ -156,7 +156,7 @@ private:
 
 	artemis::TagManager* tagManager;
 	artemis::GroupManager* groupManager;
-	artemis::ComponentMapper<CharacterRPGAttributes> RPGattributesMapper;
+	artemis::ComponentMapper<CharacterRPGComponent> RPGattributesMapper;
 	artemis::ComponentMapper<AnimationComponent> animationMapper;
 };
 #endif

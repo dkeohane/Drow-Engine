@@ -8,7 +8,7 @@
 #include "VelocityComponent.h"
 #include "PlayerInputComponent.h"
 #include "AnimationComponent.h"
-#include "CharacterRPGAttributes.h"
+#include "CharacterRPGComponent.h"
 #include "MenuTextComponent.h"
 #include "MovementComponent.h"
 
@@ -30,7 +30,7 @@
 
 #include "TextureManager.h"
 #include "MapLoader.h"
-
+#include "InventoryComponent.h"
 
 class GameState : public ScreenState, public I_Observer
 {
@@ -38,25 +38,30 @@ public:
 	GameState(sf::RenderWindow& window){ this->Load(window); }
 	~GameState(){};
 
-	virtual void Load(sf::RenderWindow& window);
-	virtual void Draw(sf::RenderWindow& window);
-	virtual void Update(sf::Event& event);
-	virtual void Update(I_Subject* theChangeSubject);
-	virtual string getValue(){ return subjectValue; }
-
 	static const enum GameplayStates
 	{
-		PLAYING,
+		PLAYING = 1,
 		PAUSED,
 		CHARACTER_DETAILS,
 		INVENTORY,
 		QUIT
 	};
 
+	virtual void Load(sf::RenderWindow& window);
+	virtual void Draw(sf::RenderWindow& window);
+	virtual void Update(sf::Event& event);
+	virtual void Update(I_Subject* theChangeSubject);
+	virtual string getValue(){ return subjectValue; }
+
+	void handlePlayerInput(sf::Event& event);
+	void setStateComponents(GameplayStates state, bool enable);
+
 private:
 	string subjectValue;
 	artemis::World gameWorld;
+
 	GameplayStates currentState;
+	GameplayStates previousState;
 
 	//Managers
 	artemis::EntityManager* entityManager;
@@ -65,6 +70,7 @@ private:
 	artemis::TagManager* tagManager;
 	
 	MapLoader* mapLoader;
+	std::map<GameplayStates, string> stateEntities;
 };
 
 #endif

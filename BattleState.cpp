@@ -85,7 +85,7 @@ void BattleState::Update(I_Subject* theChangeSubject)
 		menuComponentSystem->setMenuComponentsGroup("AttackDecisionState"); // Update the MenuComponents group to be handled
 		mcsRenderer->setMenuComponentsGroup("AttackDecisionState"); 
 
-		CharacterRPGAttributes* c = (CharacterRPGAttributes*)tagManager->getEntity("Player").getComponent<CharacterRPGAttributes>();
+		CharacterRPGComponent* c = (CharacterRPGComponent*)tagManager->getEntity("Player").getComponent<CharacterRPGComponent>();
 		std::vector<string> abilityNames = c->getAbilityNames();
 		for(unsigned int i = 0; i < abilityNames.size(); i++)
 		{
@@ -132,7 +132,7 @@ void BattleState::createEnemy()
 	artemis::Entity& enemy = this->entityManager->create();
 	enemy.addComponent(new PositionComponent(900, 50));
 	enemy.addComponent(new SpriteComponent(*TextureManager::getInstance()->getResource("Media/Images/enemy1.png")));
-	enemy.addComponent(new CharacterRPGAttributes(abilities));
+	enemy.addComponent(new CharacterRPGComponent(abilities));
 	tagManager->subscribe("Enemy", enemy);
 	enemy.refresh();
 }

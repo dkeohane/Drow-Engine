@@ -6,11 +6,11 @@
 class HealthPotion: public UsableItem
 {
 public:
-	HealthPotion();
+	HealthPotion(){}
 	HealthPotion(double healthIncrease, string textureFilePath);
 	~HealthPotion();
 
-	virtual void Use(CharacterRPGAttributes* c);
+	virtual void Use();
 	
 	double getHealthIncrease() const { return healthIncrease; }
 	void setHealthIncrease(double val) { healthIncrease = val; }

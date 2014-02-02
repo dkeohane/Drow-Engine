@@ -1,0 +1,16 @@
+{
+	"EquipableItems" :
+	[
+		{ 
+		"name" : "Basic Strength Helmet",
+		"SlotType" : "Head",
+		"TextureFilepath" : "",
+		"Attributes" : 
+		{
+			"CurrentHealth" : 10.0,
+			"Strength" : 10.0
+		},
+
+		}
+	]
+}

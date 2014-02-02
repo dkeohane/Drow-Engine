@@ -1,7 +1,7 @@
 #include "MapLoader.h"
 #include "ViewPositionComponent.h"
 #include "VelocityComponent.h"
-#include "CharacterRPGAttributes.h"
+#include "CharacterRPGComponent.h"
 #include "Ability.h"
 #include "AnimationComponent.h"
 #include "MovementComponent.h"
@@ -185,12 +185,13 @@ void MapLoader::loadAbilities(Json::Value &root, artemis::Entity* entity)
 	Json::Value RPGAttributes = root.get("CharacterRPGAttributes", NULL);
 	if(RPGAttributes != NULL)
 	{
-		CharacterRPGAttributes* characterAttributes = new CharacterRPGAttributes();
-		characterAttributes->setMaxHealth(RPGAttributes["MaxHealth"].asDouble());
-		characterAttributes->setCurrentHealth(RPGAttributes["CurrentHealth"].asDouble());
-		characterAttributes->setStrength(RPGAttributes["Strength"].asDouble());
-		characterAttributes->setAgility(RPGAttributes["Agility"].asDouble());
-		characterAttributes->setIntelligence(RPGAttributes["Intelligence"].asDouble());
+		CharacterRPGComponent* characterAttributes = new CharacterRPGComponent();
+
+		characterAttributes->setAttributeValue(CharacterAttributes::MAXHEALTH, RPGAttributes["MaxHealth"].asDouble());
+		characterAttributes->setAttributeValue(CharacterAttributes::CURRENTHEALTH, RPGAttributes["CurrentHealth"].asDouble());
+		characterAttributes->setAttributeValue(CharacterAttributes::AGILITY, RPGAttributes["Agility"].asDouble());
+		characterAttributes->setAttributeValue(CharacterAttributes::STRENGTH, RPGAttributes["Strength"].asDouble());
+		characterAttributes->setAttributeValue(CharacterAttributes::INTELLIGENCE, RPGAttributes["Intelligence"].asDouble());
 
 		Json::Value abilities = root.get("AbilityData", NULL);
 		if (abilities != NULL)

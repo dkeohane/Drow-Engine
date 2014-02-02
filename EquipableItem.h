@@ -1,20 +1,51 @@
 #ifndef EQUIPABLEITEM_H_
-#endif EQUIPABLEITEM_H_
+#define EQUIPABLEITEM_H_
 
 #include "Item.h"
+#include "EquipableItemSlots.h"
 
 class EquipableItem: public Item
 {
 public:
-	virtual void Equip(CharacterRPGAttributes* c) = 0;
-	virtual void Unequip(CharacterRPGAttributes* c) = 0;
-	virtual void Discard(CharacterRPGAttributes* c) = 0;
+	EquipableItem(EquipableItemSlots::ItemSlots slotType, std::map<CharacterAttributes::Attribute, double>& itemValues)
+	{
+		this->slotType = slotType;
+		this->itemValues = itemValues;
+	}
+	~EquipableItem(){}
 
-	bool isEquiped() const { return Equiped; }
-	void setEquiped(bool val) { Equiped = val; }
+	virtual void Equip()
+	{
+		cout << "EQUIP" << endl; 
+		notify();
+	}
+
+	virtual void Unequip()
+	{
+		cout << "UNEQUIP" << endl; 
+		// invert the values of the item to remove them from the character
+		for(valueIterator = itemValues.begin(); valueIterator != itemValues.end(); valueIterator++)
+		{
+			valueIterator->second *= -1; 
+		}
+		notify(); // notify and remove values
+		// return the item values to what they were.
+		for(valueIterator = itemValues.begin(); valueIterator != itemValues.end(); valueIterator++)
+		{
+			valueIterator->second *= -1;
+		}
+	}
+
+	virtual void Discard()
+	{
+		//
+	}
+	
+	EquipableItemSlots::ItemSlots getSlotType() { return slotType; }
+	void setSlotType(EquipableItemSlots::ItemSlots val) { slotType = val; }
 
 private:
-	bool Equiped;
+	EquipableItemSlots::ItemSlots slotType;
 };
 
 #endif

@@ -48,7 +48,7 @@ public:
 	{
 		PositionComponent& p = *positionMapper.get(e);
 		shape.setPosition(p.getPosX() - width / 2, p.getPosY() - height / 2);
-		shape.setSize(sf::Vector2f(collisionBox->width, collisionBox->height));
+		shape.setSize(sf::Vector2f((float)collisionBox->width, (float)collisionBox->height));
 		shape.setOutlineThickness(2.0f);
 		shape.setOutlineColor(sf::Color::Red);
 		shape.setFillColor(sf::Color::Transparent);
@@ -56,7 +56,7 @@ public:
 	}
 
 private:
-	float width, height;
+	int width, height;
 	sf::Sprite* sprite;
 	sf::RectangleShape shape;
 	sf::RenderWindow* window;

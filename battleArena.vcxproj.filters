@@ -165,6 +165,9 @@
     <ClCompile Include="HealthPotion.cpp">
       <Filter>Source Files\Items</Filter>
     </ClCompile>
+    <ClCompile Include="CharacterAttributesSubject.cpp">
+      <Filter>Source Files\Observer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Artemis\Artemis.h">
@@ -231,9 +234,6 @@
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="VelocityComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="CharacterRPGAttributes.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="MovementSystem.h">
@@ -418,6 +418,24 @@
     </ClInclude>
     <ClInclude Include="MenuComponentGroupRenderingSystem.h">
       <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="InventoryComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EquipableItemSlots.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterRPGComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterAttributesSubject.h">
+      <Filter>Header Files\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterAttributes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterAttributesObserver.h">
+      <Filter>Header Files\Observer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

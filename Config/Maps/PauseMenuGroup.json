@@ -1,6 +1,17 @@
 {
 	"MenuTextComponents" :
 	[
+
+		{
+		"DisplayText" : "Resume",
+		"Position" : { "x" : 70, "y" : 70 },
+		"Font" : "Media/Fonts/font1.ttf",
+		"SelectedColour" : { "R" : 0, "G" : 150, "B" : 150},
+		"DeselectedColour" : { "R" : 150, "G" : 150, "B" : 150},
+		"CharacterSize" : 40,
+		"Group" : "PauseMenuGroup"
+		},
+
 		{
 		"DisplayText" : "Inventory",
 		"Position" : { "x" : 70, "y" : 170 },
@@ -30,5 +41,6 @@
 		"CharacterSize" : 40,
 		"Group" : "PauseMenuGroup"
 		}
+
 	]
 }
