@@ -7,7 +7,7 @@
 class I_State
 {
 public:
-	virtual void Draw(sf::RenderWindow& window) = 0;
+	virtual void ProcessState() = 0;
 	virtual void Update(sf::Event& event) = 0;
 };
 #endif

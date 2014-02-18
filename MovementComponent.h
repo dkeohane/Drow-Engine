@@ -13,6 +13,7 @@ public:
 		{
 			movementStates[(MovementState)i] = filepaths.at(i);
 		}
+		movementStates[IDLE] = "IDLE";
 		currentMovementState = IDLE;
 	}
 	~MovementComponent(){}

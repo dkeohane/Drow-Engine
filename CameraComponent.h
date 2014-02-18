@@ -10,8 +10,6 @@ public:
 	{
 		this->window = window;
 		this->view = view;
-		//view.setSize(viewSize);
-		//assignViewToWindow();
 	}
 
 	sf::View* getView() { return &view; }

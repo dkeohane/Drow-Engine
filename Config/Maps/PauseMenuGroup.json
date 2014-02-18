@@ -4,42 +4,42 @@
 
 		{
 		"DisplayText" : "Resume",
-		"Position" : { "x" : 70, "y" : 70 },
-		"Font" : "Media/Fonts/font1.ttf",
+		"Position" : { "x" : 935, "y" : 70 },
+		"Font" : "Media/Fonts/SquadaOne-Regular.ttf",
 		"SelectedColour" : { "R" : 0, "G" : 150, "B" : 150},
 		"DeselectedColour" : { "R" : 150, "G" : 150, "B" : 150},
-		"CharacterSize" : 40,
-		"Group" : "PauseMenuGroup"
+		"CharacterSize" : 32,
+		"Group" : "PauseMenuText"
 		},
 
 		{
 		"DisplayText" : "Inventory",
-		"Position" : { "x" : 70, "y" : 170 },
-		"Font" : "Media/Fonts/font1.ttf",
+		"Position" : { "x" : 935, "y" : 170 },
+		"Font" : "Media/Fonts/SquadaOne-Regular.ttf",
 		"SelectedColour" : { "R" : 0, "G" : 150, "B" : 150},
 		"DeselectedColour" : { "R" : 150, "G" : 150, "B" : 150},
-		"CharacterSize" : 40,
-		"Group" : "PauseMenuGroup"
+		"CharacterSize" : 32,
+		"Group" : "PauseMenuText"
 		},
 
 		{
 		"DisplayText" : "Character",
-		"Position" : { "x" : 70, "y" : 270 },
-		"Font" : "Media/Fonts/font1.ttf",
+		"Position" : { "x" : 935, "y" : 270 },
+		"Font" : "Media/Fonts/SquadaOne-Regular.ttf",
 		"SelectedColour" : { "R" : 0, "G" : 150, "B" : 150},
 		"DeselectedColour" : { "R" : 150, "G" : 150, "B" : 150},
-		"CharacterSize" : 40,
-		"Group" : "PauseMenuGroup"
+		"CharacterSize" : 32,
+		"Group" : "PauseMenuText"
 		},
 
 		{
 		"DisplayText" : "Quit",
-		"Position" : { "x" : 70, "y" : 370 },
-		"Font" : "Media/Fonts/font1.ttf",
+		"Position" : { "x" : 935, "y" : 370 },
+		"Font" : "Media/Fonts/SquadaOne-Regular.ttf",
 		"SelectedColour" : { "R" : 0, "G" : 150, "B" : 150},
 		"DeselectedColour" : { "R" : 150, "G" : 150, "B" : 150},
-		"CharacterSize" : 40,
-		"Group" : "PauseMenuGroup"
+		"CharacterSize" : 32,
+		"Group" : "PauseMenuText"
 		}
 
 	]

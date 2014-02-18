@@ -1,12 +1,6 @@
-#include "MapLoader.h"
-#include "ViewPositionComponent.h"
-#include "VelocityComponent.h"
-#include "CharacterRPGComponent.h"
-#include "Ability.h"
-#include "AnimationComponent.h"
-#include "MovementComponent.h"
+#include "FileLoader.h"
 
-void MapLoader::loadMap(const std::string filepath)
+void FileLoader::loadMap(const std::string filepath)
 {
 	//open up the file
 	std::filebuf fb;
@@ -48,12 +42,18 @@ void MapLoader::loadMap(const std::string filepath)
 			minLevel = randomEncounter["MinLevel"].asInt();
 			maxLevel = randomEncounter["MaxLevel"].asInt();
 		}
+		else
+		{
+			encounterChance = 0;
+			minLevel = 0;
+			maxLevel = 0;
+		}
 
 		backgroundData[tileID] = new Tile(tileID, *TextureManager::getInstance()->getResource(textureFilepath), collision, encounterChance, minLevel, maxLevel);
 		encounterChance = minLevel = maxLevel = 0;
 	}
 
-	Json::Value mapData = root.get("Map1", NULL);
+	Json::Value mapData = root.get("Map", NULL);
 	if(mapData == NULL)
 	{
 		cout << "mapData is null" << endl;
@@ -66,16 +66,58 @@ void MapLoader::loadMap(const std::string filepath)
 		{
 			e = &this->entityManager->create();
 			e->addComponent(new SpriteComponent(backgroundData[mapRow[j].asInt()]->texture));
-			((SpriteComponent*)e->getComponent<SpriteComponent>())->centreOnOrigin();
+			spriteMapper.get(*e)->centreOnOrigin();
 			if(backgroundData[mapRow[j].asInt()]->collision)
 			{
 				e->addComponent(new CollisionComponent());
 				groupManager->set("Wall", *e);
 			}
-			e->addComponent(new PositionComponent((float)j * 70, (float)i * 70));
+			e->addComponent(new PositionComponent((float)j * 16, (float)i * 16));
+			if(backgroundData[mapRow[j].asInt()]->encounterChance > 0)
+			{
+				int encounterChance = backgroundData[mapRow[j].asInt()]->encounterChance;
+				int minLevel = backgroundData[mapRow[j].asInt()]->minLevel;
+				int maxLevel = backgroundData[mapRow[j].asInt()]->maxLevel;
+				sf::IntRect encRect((int)(positionMapper.get(*e))->getPosX(), (int)(positionMapper.get(*e))->getPosY(), (spriteMapper.get(*e))->getTexture()->getSize().x, (spriteMapper.get(*e))->getTexture()->getSize().y);
+				/*sf::IntRect encRect(pos, );
+				collisionBox->left = (int)(p.getPosX() - width / 2);
+				collisionBox->top = (int)(p.getPosY() - height / 2);
+				collisionBox->width = width;
+				collisionBox->height = height;
+				*/
+
+				e->addComponent(new BattleEncounterComponent(encRect, encounterChance, minLevel, maxLevel));
+			}
 			e->refresh();
 		}
 	}
+
+	artemis::Entity& tree = entityManager->create();
+	tree.addComponent(new PositionComponent(0,0));
+	tree.addComponent(new SpriteComponent(*TextureManager::getInstance()->getResource("Media/Images/Trees/tree1.png")));
+	spriteMapper.get(tree)->getSprite()->setScale(1.5f,1.5f);
+	spriteMapper.get(tree)->getSprite()->setTextureRect(sf::IntRect(0,0,440,96));
+	spriteMapper.get(tree)->getTexture()->setRepeated(true);
+	tree.refresh();
+	groupManager->set("Tree", tree);
+
+	artemis::Entity& shrub = entityManager->create();
+	shrub.addComponent(new PositionComponent(0,135));
+	shrub.addComponent(new SpriteComponent(*TextureManager::getInstance()->getResource("Media/Images/Trees/shrub2.png")));
+	//spriteMapper.get(tree)->getSprite()->setScale(1.5f,1.5f);
+	spriteMapper.get(shrub)->getSprite()->setTextureRect(sf::IntRect(0,0,261,28));
+	spriteMapper.get(shrub)->getTexture()->setRepeated(true);
+	shrub.refresh();
+	groupManager->set("Tree", shrub);
+
+	artemis::Entity& shrub2 = entityManager->create();
+	shrub2.addComponent(new PositionComponent(360,135));
+	shrub2.addComponent(new SpriteComponent(*TextureManager::getInstance()->getResource("Media/Images/Trees/shrub2.png")));
+	//spriteMapper.get(tree)->getSprite()->setScale(1.5f,1.5f);
+	spriteMapper.get(shrub2)->getSprite()->setTextureRect(sf::IntRect(0,0,348,28));
+	spriteMapper.get(shrub2)->getTexture()->setRepeated(true);
+	shrub2.refresh();
+	groupManager->set("Tree", shrub2);
 
 	Json::Value architecture = root.get("Architecture", NULL);
 	for(unsigned int i = 0; i < architecture.size(); i++)
@@ -86,7 +128,7 @@ void MapLoader::loadMap(const std::string filepath)
 		((SpriteComponent*)e->getComponent<SpriteComponent>())->centreOnOrigin();
 		if(building["Scale"].asBool())
 		{
-			((SpriteComponent*)e->getComponent<SpriteComponent>())->getSprite()->setScale((float)building["Scale"]["x"].asDouble(), (float)building["Scale"]["x"].asDouble());
+			((SpriteComponent*)e->getComponent<SpriteComponent>())->getSprite()->setScale((float)building["Scale"]["x"].asDouble(), (float)building["Scale"]["y"].asDouble());
 		}
 		e->addComponent(new PositionComponent((float)building["Position"]["x"].asDouble(), (float)building["Position"]["y"].asDouble()));
 		if(building["Collision"].asBool()){ e->addComponent(new CollisionComponent()); }
@@ -95,7 +137,53 @@ void MapLoader::loadMap(const std::string filepath)
 	}
 }
 
-void MapLoader::loadPlayerDetails(const std::string filepath)
+void FileLoader::loadStateSprites(const std::string filepath)
+{
+	//open up the file
+	std::filebuf fb;
+	fb.open(filepath, std::ios::in);
+
+	//try to parse it
+	Json::Value root;
+	Json::Reader reader;
+	bool parseSuccessful = reader.parse(std::istream(&fb), root);
+	//now we have it parsed we can close it
+	fb.close();
+
+	if(!parseSuccessful)
+	{
+		std::cerr << "Unsuccessful parse of : " << filepath << std::endl;
+		std::cerr << reader.getFormatedErrorMessages() << std::endl;
+		return;
+	}
+
+	Json::Value Sprites = root.get("ScreenState", NULL);
+	if(Sprites == NULL)
+	{
+		cout << "mapData is null" << endl;
+	}
+
+	for(int i = 0; i < Sprites.size(); i++)
+	{
+		Json::Value SpriteData = Sprites[i];
+
+		e = &this->entityManager->create();
+		e->addComponent(new SpriteComponent(*TextureManager::getInstance()->getResource(SpriteData["textureFilepath"].asString())));
+		
+		if(SpriteData["Scale"].asBool())
+		{
+			spriteMapper.get(*e)->getSprite()->setScale((float)SpriteData["Scale"]["x"].asDouble(), (float)SpriteData["Scale"]["y"].asDouble());
+		}
+
+		Json::Value position = SpriteData.get("Position", -1);
+		if(position != -1){ e->addComponent(new PositionComponent((float)position["x"].asDouble(), (float)position["y"].asDouble())); }
+		
+		if(SpriteData["Group"].asString() != ""){ groupManager->set(SpriteData["Group"].asString(), *e); }
+		e->refresh();
+	}
+}
+
+void FileLoader::loadPlayerDetails(const std::string filepath)
 {
 	//open up the file
 	std::filebuf fb;
@@ -136,12 +224,13 @@ void MapLoader::loadPlayerDetails(const std::string filepath)
 
 	loadAbilities(root, e);
 	loadAnimations(root, e);
+	loadPlayerItems(root, e);
 
 	e->refresh();
 }
 
 
-void MapLoader::loadAnimations(Json::Value &root, artemis::Entity* entity)
+void FileLoader::loadAnimations(Json::Value &root, artemis::Entity* entity)
 {
 	std::map<string, sf::Texture*> textures;
 	std::map<std::string, Animation*> *animationListPtr = new std::map<std::string, Animation*>();
@@ -176,11 +265,12 @@ void MapLoader::loadAnimations(Json::Value &root, artemis::Entity* entity)
 		{
 			e->addComponent(new MovementComponent(stateStrings));
 			((MovementComponent*)e->getComponent<MovementComponent>())->attach((AnimationComponent*)e->getComponent<AnimationComponent>());
+			((MovementComponent*)e->getComponent<MovementComponent>())->notify();
 		}
 	}
 }
 
-void MapLoader::loadAbilities(Json::Value &root, artemis::Entity* entity)
+void FileLoader::loadAbilities(Json::Value &root, artemis::Entity* entity)
 {
 	Json::Value RPGAttributes = root.get("CharacterRPGAttributes", NULL);
 	if(RPGAttributes != NULL)
@@ -210,7 +300,7 @@ void MapLoader::loadAbilities(Json::Value &root, artemis::Entity* entity)
 	}
 }
 
-void MapLoader::loadTextComponents(const std::string filepath, bool viewRelativePositioning, std::vector<artemis::Entity*>* entityVector)
+void FileLoader::loadTextComponents(const std::string filepath, bool viewRelativePositioning, std::vector<artemis::Entity*>* entityVector)
 {
 	//open up the file
 	std::filebuf fb;
@@ -252,15 +342,17 @@ void MapLoader::loadTextComponents(const std::string filepath, bool viewRelative
 								   MenuText["DeselectedColour"]["G"].asUInt(),
 								   MenuText["DeselectedColour"]["B"].asUInt());
 		int characterSize = MenuText["CharacterSize"].asInt();
+		string fontFilepath = MenuText["Font"].asString();
 
 		e = &this->entityManager->create();
 		e->addComponent(new PositionComponent(position.x, position.y));
-		e->addComponent(new MenuTextComponent(displayText, *FontManager::getInstance()->getResource("Media/Fonts/font1.ttf"), selectedColour, deselectedColour, characterSize));
+		e->addComponent(new MenuTextComponent(displayText, *FontManager::getInstance()->getResource(fontFilepath), selectedColour, deselectedColour, characterSize));
 		e->addComponent(new PlayerInputComponent(0, 30));
 		if(viewRelativePositioning)
 		{
 			e->addComponent(new ViewPositionComponent(position.x, position.y));
 		}
+		this->entityManager->refresh(*e);
 		e->refresh();
 
 		if(MenuText["Group"].asBool())
@@ -271,5 +363,50 @@ void MapLoader::loadTextComponents(const std::string filepath, bool viewRelative
 		{
 			entityVector->push_back(e);
 		}
+	}
+}
+
+void FileLoader::loadPlayerItems(Json::Value &root, artemis::Entity* entity)
+{
+	Json::Value inventory = root.get("Inventory", NULL);
+	if(inventory != NULL)
+	{
+		InventoryComponent* inventory = new InventoryComponent();
+
+		this->equipableSlots["Head"] = EquipableItemSlots::HEAD;
+		this->equipableSlots["Chest"] = EquipableItemSlots::CHEST;
+		this->equipableSlots["Shoulders"] = EquipableItemSlots::SHOUDLERS;
+		this->equipableSlots["Gloves"] = EquipableItemSlots::GLOVES;
+		this->equipableSlots["Leggings"] = EquipableItemSlots::LEGGINGS;
+		this->equipableSlots["Boots"] = EquipableItemSlots::BOOTS;
+		this->equipableSlots["Weapon"] = EquipableItemSlots::WEAPON;
+
+		Json::Value equipableItems = root.get("EquipableItems", NULL);
+		for(unsigned int i = 0; i < equipableItems.size(); i++)
+		{
+			Json::Value equipableItem = equipableItems[i];
+
+			std::map<CharacterAttributes::Attribute, double> itemValues;
+			Json::Value attributes = equipableItem["Attributes"];
+
+			string name = equipableItem["name"].asString();
+			string slotTypeString = equipableItem["slotType"].asString();
+			string textureFilepath = equipableItem["textureFilepath"].asString();
+			string itemDescription = equipableItem["itemDescription"].asString();
+			EquipableItemSlots::ItemSlots slotType = equipableSlots[slotTypeString];
+
+			itemValues[CharacterAttributes::MAXHEALTH] = attributes["MaxHealth"].asDouble();
+			itemValues[CharacterAttributes::CURRENTHEALTH] = attributes["CurrentHealth"].asDouble();
+			itemValues[CharacterAttributes::AGILITY] = attributes["Agility"].asDouble();
+			itemValues[CharacterAttributes::STRENGTH] = attributes["Strength"].asDouble();
+			itemValues[CharacterAttributes::INTELLIGENCE] = attributes["Intelligence"].asDouble();
+
+			EquipableItem* item = new EquipableItem(slotType, itemValues, name);
+			item->setItemDescription(itemDescription);
+			item->setTextureFilePath(textureFilepath);
+			item->attach((CharacterRPGComponent*)entity->getComponent<CharacterRPGComponent>());
+			inventory->addItem(item);
+		}
+		entity->addComponent(inventory);
 	}
 }

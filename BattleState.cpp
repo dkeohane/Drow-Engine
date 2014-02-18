@@ -2,32 +2,39 @@
 
 void BattleState::Load(sf::RenderWindow& window)
 {
+	// Artemis Managers
 	entityManager = battleWorld.getEntityManager();
 	systemManager = battleWorld.getSystemManager();
 	groupManager = battleWorld.getGroupManager();
 	tagManager = battleWorld.getTagManager();
+	
+	// Entity Component Mappers
+	spriteMapper.init(battleWorld);
+	menuTextMapper.init(battleWorld);
+	animationMapper.init(battleWorld);
+	RPGattributesMapper.init(battleWorld);
 
-	mapLoader = new MapLoader(&battleWorld);
+	fileLoader = new FileLoader(&battleWorld);
+	window.setView(sf::View(sf::Vector2f(400, 300), sf::Vector2f(800, 600)));
 
-	// temp
-	artemis::Entity& background = entityManager->create();
-	background.addComponent(new PositionComponent(0,0));
-	background.addComponent(new SpriteComponent(*TextureManager::getInstance()->getResource("Media/Images/background1.png")));
-	background.refresh();
-	// end temp
+	stateSpriteGroups[ACTION_DECISION] = "ActionDecisionSprites";
+	stateSpriteGroups[ATTACK_DECISION] = "AttackDecisionSprites";
 
-	mapLoader->loadPlayerDetails("Config/Maps/Player.json");
+	fileLoader->loadStateSprites("Config/Maps/BattleStateSprites.json");
+	setStateSpriteComponents(ATTACK_DECISION, false);
+
+	fileLoader->loadPlayerDetails("Config/Maps/Player.json");
 	createEnemy();
-	createHUD(tagManager->getEntity("Player"), tagManager->getEntity("Enemy"));
+	//createHUD(tagManager->getEntity("Player"), tagManager->getEntity("Enemy"));
+	this->setPlayer(&tagManager->getEntity("Player"));
+	this->setEnemy(&tagManager->getEntity("Enemy"));
 
-	battleSystem = new BattleSystem(&tagManager->getEntity("Player"), &tagManager->getEntity("Enemy"));
 	menuComponentSystem = new MenuComponentSystem("ActionDecisionState");
 	menuComponentSystem->attach(this);
 
 	mcsRenderer = new MenuComponentGroupRenderingSystem(&window);
 	mcsRenderer->setMenuComponentsGroup("ActionDecisionState");
-
-	systemManager->setSystem(battleSystem);
+	
 	systemManager->setSystem(mcsRenderer);
 	systemManager->setSystem(new SpriteSystem(&window));
 	systemManager->setSystem(menuComponentSystem);
@@ -35,18 +42,8 @@ void BattleState::Load(sf::RenderWindow& window)
 	systemManager->setSystem(new BattleHUDSystem(&window));
 	systemManager->initializeAll();
 
-	battleSystem->setPlayerAttack(&tagManager->getEntity("abilityAttack"));
-	battleSystem->setEnemyAttack(&tagManager->getEntity("abilityAttack"));
-
-	// temp
-	artemis::Entity& actionDecisionBorder = entityManager->create();
-	actionDecisionBorder.addComponent(new PositionComponent(40, 550));
-	actionDecisionBorder.addComponent(new SpriteComponent(*TextureManager::getInstance()->getResource("Media/Images/actionDecisionBorder.png")));
-	actionDecisionBorder.refresh();
-	// end temp
-
-	mapLoader->loadTextComponents("Config/Maps/ActionDecisionTextComponents.json", false, NULL);
-	mapLoader->loadTextComponents("Config/Maps/AttackDecisionTextComponents.json", false, &playerAttacks);
+	fileLoader->loadTextComponents("Config/Maps/ActionDecisionTextComponents.json", false, NULL);
+	fileLoader->loadTextComponents("Config/Maps/AttackDecisionTextComponents.json", false, &playerAttacks);
 
 	currentState = ACTION_DECISION;
 	
@@ -54,14 +51,13 @@ void BattleState::Load(sf::RenderWindow& window)
 	battleWorld.setDelta(0.0016f);
 }
 
-void BattleState::Draw(sf::RenderWindow& window)
+void BattleState::ProcessState()
 {
 	if(currentState == ACTION_DECISION || currentState == ATTACK_DECISION)
 	{
 		systemManager->getSystem<SpriteSystem>()->process();
 		systemManager->getSystem<MenuComponentSystem>()->process();
 		systemManager->getSystem<MenuComponentGroupRenderingSystem>()->process();
-		systemManager->getSystem<AnimationSystem>()->process();
 		systemManager->getSystem<BattleHUDSystem>()->process();
 	}
 	else // an attack has been chosen
@@ -81,16 +77,16 @@ void BattleState::Update(I_Subject* theChangeSubject)
 {
 	if(theChangeSubject->getValue() == "Attack")
 	{
+		setStateSpriteComponents(ACTION_DECISION, false);
+		setStateSpriteComponents(ATTACK_DECISION, true);
 		currentState = ATTACK_DECISION;
 		menuComponentSystem->setMenuComponentsGroup("AttackDecisionState"); // Update the MenuComponents group to be handled
 		mcsRenderer->setMenuComponentsGroup("AttackDecisionState"); 
 
-		CharacterRPGComponent* c = (CharacterRPGComponent*)tagManager->getEntity("Player").getComponent<CharacterRPGComponent>();
-		std::vector<string> abilityNames = c->getAbilityNames();
+		std::vector<string> abilityNames = RPGattributesMapper.get(*player)->getAbilityNames();
 		for(unsigned int i = 0; i < abilityNames.size(); i++)
 		{
-			playerAttacks.at(i)->removeComponent<MenuTextComponent>();
-			playerAttacks.at(i)->addComponent(new MenuTextComponent(abilityNames.at(i), *FontManager::getInstance()->getResource("Media/Fonts/font1.ttf"), sf::Color::Green, sf::Color::White, 40));
+			menuTextMapper.get(*playerAttacks.at(i))->setComponentText(abilityNames.at(i));
 			playerAttacks.at(i)->refresh();
 		}
 	} 
@@ -102,18 +98,65 @@ void BattleState::Update(I_Subject* theChangeSubject)
 	else if(theChangeSubject->getValue() == "Back")
 	{
 		// For the moment can only move back from the attack decision state.
-		currentState = ACTION_DECISION;
-		menuComponentSystem->setMenuComponentsGroup("ActionDecisionState");
-		mcsRenderer->setMenuComponentsGroup("ActionDecisionState");
+		if(currentState != ACTION_DECISION)
+		{
+			setStateSpriteComponents(ACTION_DECISION, true);
+			setStateSpriteComponents(ATTACK_DECISION, false);
+			currentState = ACTION_DECISION;
+			menuComponentSystem->setMenuComponentsGroup("ActionDecisionState");
+			mcsRenderer->setMenuComponentsGroup("ActionDecisionState");
+		}
 	}
-	else // it is an attack
+	else // it is a player attack
 	{
+		setStateSpriteComponents(ACTION_DECISION, true);
+		setStateSpriteComponents(ATTACK_DECISION, false);
+
 		cout << theChangeSubject->getValue() << endl;
-		this->battleSystem->setAttack(theChangeSubject->getValue());
+
+		// This is a player attack
+		currentState = PLAYERTURN;
+		this->abilitySelection(theChangeSubject->getValue());
+
+		currentState = ENEMYTURN;
+		// add calculate enemy method here
+		this->abilitySelection(theChangeSubject->getValue());
+
 		currentState = ACTION_DECISION;
 		menuComponentSystem->setMenuComponentsGroup("ActionDecisionState");
 		mcsRenderer->setMenuComponentsGroup("ActionDecisionState");
 	}
+}
+
+void BattleState::abilitySelection(string abilityName)
+{		
+	if(RPGattributesMapper.get(*player)->getAttributeValue(CharacterAttributes::CURRENTHEALTH) > 0 && RPGattributesMapper.get(*enemy)->getAttributeValue(CharacterAttributes::CURRENTHEALTH) > 0)
+	{
+		if(currentState == PLAYERTURN)
+		{
+			usePlayerAbility(RPGattributesMapper.get(*player)->getAbility(abilityName));
+		}
+		else if(currentState == ENEMYTURN)
+		{
+			useEnemyAbility(RPGattributesMapper.get(*enemy)->getAbility(abilityName));
+		}
+	}
+	else
+	{
+		cout << "SOMEONE IS DEAD" << endl;
+	}
+}
+
+void BattleState::usePlayerAbility(Ability* ability)
+{
+	double damage = calculateDamage(ability, player, enemy);
+	RPGattributesMapper.get(*enemy)->setAttributeValue(CharacterAttributes::CURRENTHEALTH, RPGattributesMapper.get(*enemy)->getAttributeValue(CharacterAttributes::CURRENTHEALTH) - damage);
+}
+
+void BattleState::useEnemyAbility(Ability* ability)
+{
+	double damage = calculateDamage(ability, enemy, player);
+	RPGattributesMapper.get(*player)->setAttributeValue(CharacterAttributes::CURRENTHEALTH, RPGattributesMapper.get(*player)->getAttributeValue(CharacterAttributes::CURRENTHEALTH) - damage);
 }
 
 void BattleState::createEnemy()
@@ -130,8 +173,9 @@ void BattleState::createEnemy()
 	abilities["Ability_4"]  = d;
 
 	artemis::Entity& enemy = this->entityManager->create();
-	enemy.addComponent(new PositionComponent(900, 50));
+	enemy.addComponent(new PositionComponent(550, 50));
 	enemy.addComponent(new SpriteComponent(*TextureManager::getInstance()->getResource("Media/Images/enemy1.png")));
+	spriteMapper.get(enemy)->getSprite()->setScale(.75f, .75f);
 	enemy.addComponent(new CharacterRPGComponent(abilities));
 	tagManager->subscribe("Enemy", enemy);
 	enemy.refresh();
@@ -164,4 +208,20 @@ void BattleState::createHUD(artemis::Entity& player, artemis::Entity& enemy)
 	pos2.push_back(sf::Vector2f(620, 515));
 
 	enemy.addComponent(new HUDComponent(barT, barBGT, pos1, pos2));
+}
+
+void BattleState::setStateSpriteComponents(BattleStates state, bool enable)
+{
+	if(enable)
+	{
+		for(int i = 0; i < (groupManager->getEntities(stateSpriteGroups[state]))->getCount(); i++)
+		{
+			spriteMapper.get(*(groupManager->getEntities(stateSpriteGroups[state]))->get(i))->setActive(true);
+		}
+	}else{
+		for(int i = 0; i < (groupManager->getEntities(stateSpriteGroups[state]))->getCount(); i++)
+		{
+			spriteMapper.get(*(groupManager->getEntities(stateSpriteGroups[state]))->get(i))->setActive(false);
+		}
+	}
 }

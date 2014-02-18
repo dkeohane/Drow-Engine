@@ -29,20 +29,13 @@ public:
 		PositionComponent& p = *positionMapper.get(e);
 		CameraComponent& c = *cameraMapper.get(e);
 
-		if(count == 0)
-			c.assignViewToWindow();
-
-		
-
-		sf::View* v = c.getView();
-		v->setCenter(p.getPosition());
-		//v->setRotation(v->getRotation() + 3);
-		//c.assignViewToWindow();
+		c.getView()->setCenter(p.getPosition());
+		c.assignViewToWindow();
 	}
 
 private:
 	int count;
-
+	sf::View* v;
 	artemis::ComponentMapper<CameraComponent> cameraMapper;
 	artemis::ComponentMapper<PositionComponent> positionMapper;
 

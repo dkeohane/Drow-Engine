@@ -1,5 +1,12 @@
 #include "MenuComponentSystem.h"
 
+void MenuComponentSystem::initialize()
+{
+	groupManager = world->getGroupManager();
+	menuTextMapper.init(*world);
+	playerInputMapper.init(*world);
+}
+
 void MenuComponentSystem::processEntity(artemis::Entity &e)
 {
 	if(axisThreshold == -1)
@@ -89,6 +96,7 @@ void MenuComponentSystem::Update(sf::Event& event)
 			{
 				subjectValue = std::string(menuTextMapper.get(*menuEntity)->getComponentText().getString());
 				cout << "subjectValue : " << subjectValue << endl;
+				menuTextMapper.get(*menuEntity)->notCurrentlySelected();
 				this->currentlySelected = 0;
 				this->notify();
 			}
@@ -97,9 +105,12 @@ void MenuComponentSystem::Update(sf::Event& event)
 		{
 			subjectValue = "Back";
 			cout << "subjectValue : " << subjectValue << endl;
+			menuTextMapper.get(*menuEntity)->notCurrentlySelected();
 			this->currentlySelected = 0;
 			this->notify();
 		}
 	}
 }
+
+
 

@@ -10,7 +10,7 @@
 #include "MenuComponentRenderingSystem.h"
 
 #include "TextureManager.h"
-#include "MapLoader.h"
+#include "FileLoader.h"
 
 class MainMenuState : public ScreenState, public I_Observer
 {
@@ -18,7 +18,7 @@ public:
 	MainMenuState(sf::RenderWindow& window);
 	~MainMenuState();
 
-	virtual void Draw(sf::RenderWindow& window);
+	virtual void ProcessState();
 	virtual void Update(sf::Event& event);
 	virtual void Load(sf::RenderWindow& window);
 
@@ -30,7 +30,7 @@ public:
 private:
 	artemis::World menuWorld;
 	std::string subjectValue;
-	MapLoader* mapLoader;
+	FileLoader* fileLoader;
 
 	//Managers
 	artemis::EntityManager* entityManager;

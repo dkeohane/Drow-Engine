@@ -41,7 +41,6 @@ public:
 		collisionBox->top = (int)(p.getPosY() - height / 2);
 		collisionBox->width = width;
 		collisionBox->height = height;
-		//debug(e);
 	}
 
 	void debug(artemis::Entity& e)

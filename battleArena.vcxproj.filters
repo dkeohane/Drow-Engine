@@ -159,14 +159,20 @@
     <ClCompile Include="FontManager.cpp">
       <Filter>Source Files\File IO</Filter>
     </ClCompile>
-    <ClCompile Include="MapLoader.cpp">
-      <Filter>Source Files\File IO</Filter>
-    </ClCompile>
     <ClCompile Include="HealthPotion.cpp">
       <Filter>Source Files\Items</Filter>
     </ClCompile>
     <ClCompile Include="CharacterAttributesSubject.cpp">
       <Filter>Source Files\Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="InventoryMenuSystem.cpp">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="FileLoader.cpp">
+      <Filter>Source Files\File IO</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleEmitter.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -299,9 +305,6 @@
     <ClInclude Include="BattleState.h">
       <Filter>Header Files\States</Filter>
     </ClInclude>
-    <ClInclude Include="BattleSystem.h">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Ability.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -392,9 +395,6 @@
     <ClInclude Include="TextureManager.h">
       <Filter>Header Files\File IO</Filter>
     </ClInclude>
-    <ClInclude Include="MapLoader.h">
-      <Filter>Header Files\File IO</Filter>
-    </ClInclude>
     <ClInclude Include="GameResourceManager.h">
       <Filter>Header Files\File IO</Filter>
     </ClInclude>
@@ -436,6 +436,27 @@
     </ClInclude>
     <ClInclude Include="CharacterAttributesObserver.h">
       <Filter>Header Files\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="InventoryMenuSystem.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="FileLoader.h">
+      <Filter>Header Files\File IO</Filter>
+    </ClInclude>
+    <ClInclude Include="DelayComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleEmitter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleEncounterComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleEncounterSystem.h">
+      <Filter>Header Files\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

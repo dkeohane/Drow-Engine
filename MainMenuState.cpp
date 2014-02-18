@@ -16,8 +16,10 @@ void MainMenuState::Load(sf::RenderWindow& window)
 	systemManager = menuWorld.getSystemManager();
 	groupManager = menuWorld.getGroupManager();
 
-	mapLoader = new MapLoader(&menuWorld);
-	mapLoader->loadTextComponents("Config/Maps/MainMenuTextComponents.json", false, NULL);
+	fileLoader = new FileLoader(&menuWorld);
+	fileLoader->loadTextComponents("Config/Maps/MainMenuTextComponents.json", false, NULL);
+
+	window.setView(window.getDefaultView());
 
 	systemManager->setSystem(new SpriteSystem(&window));
 	systemManager->setSystem(new MenuComponentSystem("MainMenuComponents"));
@@ -35,7 +37,7 @@ void MainMenuState::Load(sf::RenderWindow& window)
 	menuWorld.setDelta(0.0016f);
 }
 
-void MainMenuState::Draw(sf::RenderWindow& window)
+void MainMenuState::ProcessState()
 {
 	systemManager->getSystem<SpriteSystem>()->process();
 	systemManager->getSystem<MenuComponentRenderingSystem>()->process();

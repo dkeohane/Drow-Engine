@@ -17,6 +17,7 @@ public:
 		currentlySelected = 0;
 		axisThreshold = -1;
 		gamePadID = -1;
+
 		delayTime = sf::milliseconds(200);
 		time.restart();
 		this->menuComponentsGroup = menuComponentsGroup;
@@ -29,23 +30,15 @@ public:
 
 	~MenuComponentSystem(){ }
 
-	virtual void initialize() 
-	{
-		groupManager = world->getGroupManager();
-		menuTextMapper.init(*world);
-		playerInputMapper.init(*world);
-	}
-	
+	virtual void initialize();
 	virtual void processEntity(artemis::Entity &e);
 
 	void Update(sf::Event& event);
+
 	std::string getMenuComponentsGroup() const { return menuComponentsGroup; }
 	void setMenuComponentsGroup(std::string val) { menuComponentsGroup = val; menuEntity = NULL; }
 
-	virtual string getValue()
-	{ 
-		return subjectValue; 
-	}
+	virtual string getValue(){ return subjectValue; }
 
 	void menuUpOrLeft();
 	void menuDownOrRight();
@@ -53,6 +46,7 @@ public:
 private:
 	float xVal, yVal, axisThreshold;
 	int currentlySelected, gamePadID;
+
 	std::string menuComponentsGroup, subjectValue;
 	sf::Time delayTime;
 	sf::Clock time;

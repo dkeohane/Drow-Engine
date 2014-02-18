@@ -25,10 +25,11 @@
     <ClCompile Include="CreditsMenuState.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="HealthPotion.cpp" />
+    <ClCompile Include="InventoryMenuSystem.cpp" />
     <ClCompile Include="json_reader.cpp" />
     <ClCompile Include="json_value.cpp" />
     <ClCompile Include="json_writer.cpp" />
-    <ClCompile Include="MapLoader.cpp" />
+    <ClCompile Include="FileLoader.cpp" />
     <ClCompile Include="MenuComponentSystem.cpp" />
     <ClCompile Include="BattleState.cpp" />
     <ClCompile Include="Component.cpp" />
@@ -77,6 +78,7 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
+    <ClCompile Include="ParticleEmitter.cpp" />
     <ClCompile Include="PausableClock.cpp" />
     <ClCompile Include="SystemBitManager.cpp" />
     <ClCompile Include="SystemManager.cpp" />
@@ -110,6 +112,8 @@
     <ClInclude Include="Artemis\TagManager.h" />
     <ClInclude Include="Artemis\TypeInfoComparator.h" />
     <ClInclude Include="Artemis\World.h" />
+    <ClInclude Include="BattleEncounterComponent.h" />
+    <ClInclude Include="BattleEncounterSystem.h" />
     <ClInclude Include="BattleHUDSystem.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="CameraSystem.h" />
@@ -121,6 +125,7 @@
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="CollisionType.h" />
     <ClInclude Include="CreditsMenuState.h" />
+    <ClInclude Include="DelayComponent.h" />
     <ClInclude Include="EquipableItem.h" />
     <ClInclude Include="EquipableItemSlots.h" />
     <ClInclude Include="FontManager.h" />
@@ -129,6 +134,7 @@
     <ClInclude Include="HealthPotion.h" />
     <ClInclude Include="HUDComponent.h" />
     <ClInclude Include="InventoryComponent.h" />
+    <ClInclude Include="InventoryMenuSystem.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="json\autolink.h" />
     <ClInclude Include="json\config.h" />
@@ -139,11 +145,10 @@
     <ClInclude Include="json\value.h" />
     <ClInclude Include="json\writer.h" />
     <ClInclude Include="json_batchallocator.h" />
-    <ClInclude Include="MapLoader.h" />
+    <ClInclude Include="FileLoader.h" />
     <ClInclude Include="MenuComponentGroupRenderingSystem.h" />
     <ClInclude Include="MenuComponentSystem.h" />
     <ClInclude Include="BattleState.h" />
-    <ClInclude Include="BattleSystem.h" />
     <ClInclude Include="CharacterRPGComponent.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Commands.h" />
@@ -162,6 +167,8 @@
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="MovementSystem.h" />
     <ClInclude Include="NoCommand.h" />
+    <ClInclude Include="ParticleEmitter.h" />
+    <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="PausableClock.h" />
     <ClInclude Include="PlayerInputComponent.h" />
     <ClInclude Include="PositionComponent.h" />
@@ -206,7 +213,18 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>G:\Program Files %28x86%29\Visual Leak Detector\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LibraryPath>G:\Program Files %28x86%29\Visual Leak Detector\lib\Win32;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>G:\Program Files %28x86%29\Visual Leak Detector\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LibraryPath>G:\Program Files %28x86%29\Visual Leak Detector\lib\Win32;G:\Program Files %28x86%29\Visual Leak Detector\lib\Win64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>

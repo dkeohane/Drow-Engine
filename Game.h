@@ -34,6 +34,7 @@ private:
 	sf::Sprite fadeSprite;
 
 	std::map<std::string, ScreenState*> availableStates;
+	std::map<std::string, sf::Music*> stateMusic;
 	sf::RenderWindow window;
 
 };

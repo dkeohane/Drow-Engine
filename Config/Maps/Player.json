@@ -5,6 +5,7 @@
 	"Position" : { "x" : 200, "y" : 200},
 	"Movement" : true,
 	"Collision" : true,
+	"Inventory" : true,
 
 	"CharacterRPGAttributes" : 
 	{
@@ -50,7 +51,7 @@
 		},
 
 		{
-		"name" : "Media/Images/playerDown2.png",
+		"name" : "Media/Images/playerDown.png",
 		"origin" : { "x" : 0, "y" : 0 },
 		"frameCount" : 1,
 		"frameSize" : { "width" : 21, "height" : 25 },
@@ -61,31 +62,94 @@
    	"AbilityData" :
 	[ 
 		{
-		"abilityName" : "Ability_1",
+		"abilityName" : "Ember",
 		"damageValue" : 10,
 		"healingValue" : 10,
 		"abilityAnimationFilepath" : "Media/Images/attack.png"
 		},
 
 		{
-		"abilityName" : "Ability_2",
+		"abilityName" : "Club",
 		"damageValue" : 10,
 		"healingValue" : 10,
 		"abilityAnimationFilepath" : "Media/Images/attack.png"
 		},
 
 		{
-		"abilityName" : "Ability_3",
+		"abilityName" : "Bolt",
 		"damageValue" : 10,
 		"healingValue" : 10,
 		"abilityAnimationFilepath" : "Media/Images/attack.png"
 		},
 
 		{
-		"abilityName" : "Ability_4",
+		"abilityName" : "Scratch",
 		"damageValue" : 10,
 		"healingValue" : 10,
 		"abilityAnimationFilepath" : "Media/Images/attack.png"
+		}
+	],
+
+	"EquipableItems" :
+	[
+		{
+		"name" : "Basic Strength Helmet",
+		"slotType" : "Head",
+		"textureFilepath" : "Media/Images/helmet.png",
+		"Attributes" : 
+			{
+				"currentHealth" : 10.0,
+				"strength" : 10.0
+			},
+		"itemDescription" : "This is a basic strength helmet"
+		},
+
+		{
+		"name" : "Basic Strength Chest",
+		"slotType" : "Chest",
+		"textureFilepath" : "Media/Images/helmet.png",
+		"Attributes" : 
+			{
+				"currentHealth" : 10.0,
+				"strength" : 10.0
+			},
+		"itemDescription" : "This is a basic strength chest"
+		},
+
+		{
+		"name" : "Basic Strength Shoulders",
+		"slotType" : "Shoulders",
+		"textureFilepath" : "Media/Images/helmet.png",
+		"Attributes" : 
+			{
+				"currentHealth" : 10.0,
+				"strength" : 10.0
+			},
+		"itemDescription" : "This is a basic strength shoulders"
+		},
+
+		{
+		"name" : "Basic Strength Gloves",
+		"slotType" : "Gloves",
+		"textureFilepath" : "Media/Images/helmet.png",
+		"Attributes" : 
+			{
+				"currentHealth" : 10.0,
+				"strength" : 10.0
+			},
+		"itemDescription" : "This is a basic strength gloves"
+		},
+
+		{
+		"name" : "Basic Strength Boots",
+		"slotType" : "Boots",
+		"textureFilepath" : "Media/Images/helmet.png",
+		"Attributes" : 
+			{
+				"currentHealth" : 10.0,
+				"strength" : 10.0
+			},
+		"itemDescription" : "This is a basic strength boots"
 		}
 	]
 }

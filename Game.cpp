@@ -23,7 +23,7 @@ void Game::Start()
 
 		// Draw logic
 		window.clear();
-		this->currentState->Draw(window);
+		this->currentState->ProcessState();
 		window.display();
 	}
 }
@@ -32,26 +32,46 @@ void Game::Load()
 {
 	window.setFramerateLimit(60);
 	window.create(sf::VideoMode(1280, 800), "Drow Engine");
+	window.setJoystickThreshold(30);
 	window.setKeyRepeatEnabled(false);
 
 	fadeSprite.setTexture(*TextureManager::getInstance()->getResource("Media/Images/background1.png"));
 	sf::Color color = fadeSprite.getColor();
 	color.a = 0;
 	fadeSprite.setColor(color);
+	
+
+	sf::Music* music = new sf::Music();
+	music->openFromFile("Media/Music/Opening.ogg");
+	stateMusic["MainMenu"] = music;
+	stateMusic["MainMenu"]->setLoop(true);
+	
+	music = new sf::Music();
+	music->openFromFile("Media/Music/PalletTown.ogg");
+	stateMusic["GameState"] = music;
+	stateMusic["GameState"]->setLoop(true);
+
+	music = new sf::Music();
+	music->openFromFile("Media/Music/TrainerBattle.ogg");
+	stateMusic["BattleState"] = music;
+	stateMusic["BattleState"]->setLoop(true);
+
 
 	availableStates["GameState"] = createState(std::string("GameState"));
+	availableStates["BattleState"] = createState(std::string("BattleState"));
 	availableStates["MainMenu"] = createState(std::string("MainMenu"));
 	availableStates["CreditsMenu"] = createState(std::string("CreditsMenu"));
-	availableStates["BattleState"] = createState(std::string("BattleState"));
 
 	availableStates["GameState"]->attach(this);
 	availableStates["MainMenu"]->attach(this);
 	availableStates["CreditsMenu"]->attach(this);
 	availableStates["BattleState"]->attach(this);
 
-	//this->currentState = availableStates["MainMenu"];
-	//this->currentState = availableStates["BattleState"];
-	this->currentState = availableStates["GameState"];
+
+	currentStateString = "MainMenu";
+
+	this->currentState = availableStates[currentStateString];
+	stateMusic[currentStateString]->play();
 }
 
 void Game::Update(I_Subject* theChangeSubject)
@@ -59,8 +79,10 @@ void Game::Update(I_Subject* theChangeSubject)
 	if (theChangeSubject->getValue() != "Quit")
 	{
 		// Changes the menu state
+		stateMusic[currentStateString]->pause();
 		currentStateString = theChangeSubject->getValue();
 
+		stateMusic[currentStateString]->play();
 		fadeIn();
 		setCurrentState(availableStates[currentStateString]);
 		fadeOut();

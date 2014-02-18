@@ -31,9 +31,11 @@ public:
 		artemis::ImmutableBag<artemis::Entity*>* players = groupManager->getEntities("Player");
 		artemis::ImmutableBag<artemis::Entity*>* walls = groupManager->getEntities("Wall");
 		artemis::ImmutableBag<artemis::Entity*>* architecture = groupManager->getEntities("Architecture");
+		//artemis::ImmutableBag<artemis::Entity*>* trees = groupManager->getEntities("Tree");
 
 		processCollisions(players, walls);
 		processCollisions(players, architecture);
+		//processCollisions(players, trees);
 	}
 
 	virtual void processEntity(artemis::Entity &e)
@@ -43,9 +45,9 @@ public:
 
 	bool collisionExists(artemis::Entity* a, artemis::Entity* b)
 	{
-		sf::IntRect a1 = (*collisionMapper.get(*a)->getCollisionBox());
-		sf::IntRect a2 = (*collisionMapper.get(*b)->getCollisionBox());
-		return a1.intersects(a2);
+		collisionBox1 = (*collisionMapper.get(*a)->getCollisionBox());
+		collisionBox2 = (*collisionMapper.get(*b)->getCollisionBox());
+		return collisionBox1.intersects(collisionBox2);
 	}
 
 	void processCollisions(artemis::ImmutableBag<artemis::Entity*>* groupA, artemis::ImmutableBag<artemis::Entity*>* groupB);
@@ -53,6 +55,8 @@ public:
 private:
 	artemis::Entity* a;
 	artemis::Entity* b;
+
+	sf::IntRect collisionBox1, collisionBox2;
 
 	sf::Vector2f posA;
 	sf::Vector2f posB;

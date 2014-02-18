@@ -9,7 +9,6 @@ class SpriteComponent : public ActivatableComponent
 public:
 	SpriteComponent(sf::Texture& texture)
 	{
-		//this->setActive(true);
 		this->texture = texture;
 		sprite.setTexture(this->texture);
 	}

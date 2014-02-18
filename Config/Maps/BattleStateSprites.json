@@ -1,0 +1,78 @@
+{
+	"ScreenState" :
+	[
+		{
+		"textureFilepath" : "Media/Images/Battle1/battleBG1.png",
+		"Position" : { "x" : 0, "y" : 0 },
+		"Scale" : {"x" : 1, "y" : 1},
+		"Group" : ""
+		},
+		{
+		"textureFilepath" : "Media/Images/HUD/actionDecisionBorder.png",
+		"Position" : { "x" : 0, "y" : 450 },
+		"Scale" : {"x" : 1, "y" : 1},
+		"Group" : ""
+		},
+		{
+		"textureFilepath" : "Media/Images/HUD/RedButton.png",
+		"Position" : { "x" : 130, "y" : 480 },
+		"Scale" : {"x" : 1, "y" : 1},
+		"Group" : "ActionDecisionSprites"
+		},
+		{
+		"textureFilepath" : "Media/Images/HUD/BlueButton.png",
+		"Position" : { "x" : 450, "y" : 480 },
+		"Scale" : {"x" : 1, "y" : 1},
+		"Group" : "ActionDecisionSprites"
+		},
+		{
+		"textureFilepath" : "Media/Images/HUD/GreenButton.png",
+		"Position" : { "x" : 30, "y" : 480 },
+		"Scale" : {"x" : 0.75, "y" : 1},
+		"Group" : "AttackDecisionSprites"
+		},
+		{
+		"textureFilepath" : "Media/Images/HUD/GreenButton.png",
+		"Position" : { "x" : 220, "y" : 480 },
+		"Scale" : {"x" : 0.75, "y" : 1},
+		"Group" : "AttackDecisionSprites"
+		},
+		{
+		"textureFilepath" : "Media/Images/HUD/GreenButton.png",
+		"Position" : { "x" : 415, "y" : 480 },
+		"Scale" : {"x" : 0.75, "y" : 1},
+		"Group" : "AttackDecisionSprites"
+		},
+		{
+		"textureFilepath" : "Media/Images/HUD/GreenButton.png",
+		"Position" : { "x" : 600, "y" : 480 },
+		"Scale" : {"x" : 0.75, "y" : 1},
+		"Group" : "AttackDecisionSprites"
+		},
+		{
+		"textureFilepath" : "Media/Images/Battle1/battleBG1_ground2.png",
+		"Position" : { "x" : 0, "y" : 407 },
+		"Scale" : {"x" : 1, "y" : 1},
+		"Group" : ""
+		},
+		{
+		"textureFilepath" : "Media/Images/Battle1/battleBG1_ground.png",
+		"Position" : { "x" : 500, "y" : 200 },
+		"Scale" : {"x" : 1, "y" : 1},
+		"Group" : ""
+		},
+		{
+		"textureFilepath" : "Media/Images/HUD/playerHealthPanel.png",
+		"Position" : { "x" : 560, "y" : 340 },
+		"Scale" : {"x" : 1, "y" : 1},
+		"Group" : ""
+		},
+		{
+		"textureFilepath" : "Media/Images/HUD/enemyHealthPanel.png",
+		"Position" : { "x" : 0, "y" : 80 },
+		"Scale" : {"x" : 1, "y" : 1},
+		"Group" : ""
+		}
+	]
+
+}

@@ -1,0 +1,44 @@
+{
+	"MenuTextComponents" :
+	[
+		{
+		"DisplayText" : "bleh",
+		"Position" : { "x" : 70, "y" : 170 },
+		"Font" : "Media/Fonts/SquadaOne-Regular.ttf",
+		"SelectedColour" : { "R" : 0, "G" : 150, "B" : 150},
+		"DeselectedColour" : { "R" : 150, "G" : 150, "B" : 150},
+		"CharacterSize" : 20,
+		"Group" : "InventoryMenuText"
+		},
+
+		{
+		"DisplayText" : "bleh",
+		"Position" : { "x" : 70, "y" : 270 },
+		"Font" : "Media/Fonts/SquadaOne-Regular.ttf",
+		"SelectedColour" : { "R" : 0, "G" : 150, "B" : 150},
+		"DeselectedColour" : { "R" : 150, "G" : 150, "B" : 150},
+		"CharacterSize" : 20,
+		"Group" : "InventoryMenuText"
+		},
+
+		{
+		"DisplayText" : "bleh",
+		"Position" : { "x" : 70, "y" : 370 },
+		"Font" : "Media/Fonts/SquadaOne-Regular.ttf",
+		"SelectedColour" : { "R" : 0, "G" : 150, "B" : 150},
+		"DeselectedColour" : { "R" : 150, "G" : 150, "B" : 150},
+		"CharacterSize" : 20,
+		"Group" : "InventoryMenuText"
+		},
+
+		{
+		"DisplayText" : "bleh",
+		"Position" : { "x" : 70, "y" : 470 },
+		"Font" : "Media/Fonts/SquadaOne-Regular.ttf",
+		"SelectedColour" : { "R" : 0, "G" : 150, "B" : 150},
+		"DeselectedColour" : { "R" : 150, "G" : 150, "B" : 150},
+		"CharacterSize" : 20,
+		"Group" : "InventoryMenuText"
+		}
+	]
+}

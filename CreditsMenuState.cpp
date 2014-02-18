@@ -9,7 +9,6 @@ void CreditsMenuState::Load(sf::RenderWindow& window)
 
 	systemManager->setSystem(new MenuComponentSystem(menuGrouping));
 	((MenuComponentSystem*)(systemManager->getSystem<MenuComponentSystem>()))->attach(this);
-	systemManager->setSystem(new MenuComponentRenderingSystem(&window));
 	systemManager->setSystem(new SpriteSystem(&window));
 	systemManager->initializeAll();
 
@@ -30,10 +29,9 @@ void CreditsMenuState::Load(sf::RenderWindow& window)
 	creditsWorld.setDelta(0.0016f);
 }
 
-void CreditsMenuState::Draw(sf::RenderWindow& window)
+void CreditsMenuState::ProcessState()
 {
 	systemManager->getSystem<SpriteSystem>()->process();
-	systemManager->getSystem<MenuComponentRenderingSystem>()->process();
 }
 
 void CreditsMenuState::Update(sf::Event& event)

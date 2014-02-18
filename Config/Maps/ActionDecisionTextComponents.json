@@ -3,9 +3,9 @@
 	[
 		{
 		"DisplayText" : "Attack",
-		"Position" : { "x" : 70, "y" : 170 },
-		"Font" : "Media/Fonts/font1.ttf",
-		"SelectedColour" : { "R" : 200, "G" : 0, "B" : 10},
+		"Position" : { "x" : 190, "y" : 505 },
+		"Font" : "Media/Fonts/SquadaOne-Regular.ttf",
+		"SelectedColour" : { "R" : 255, "G" : 255, "B" : 255},
 		"DeselectedColour" : { "R" : 10, "G" : 10, "B" : 10},
 		"CharacterSize" : 40,
 		"Group" : "ActionDecisionState"
@@ -13,9 +13,9 @@
 
 		{
 		"DisplayText" : "Run",
-		"Position" : { "x" : 70, "y" : 370 },
-		"Font" : "Media/Fonts/font1.ttf",
-		"SelectedColour" : { "R" : 200, "G" : 0, "B" : 10},
+		"Position" : { "x" : 535, "y" : 505 },
+		"Font" : "Media/Fonts/SquadaOne-Regular.ttf",
+		"SelectedColour" : { "R" : 255, "G" : 255, "B" : 255},
 		"DeselectedColour" : { "R" : 10, "G" : 10, "B" : 10},
 		"CharacterSize" : 40,
 		"Group" : "ActionDecisionState"

@@ -10,7 +10,6 @@
 
 #include "SpriteSystem.h"
 #include "MenuComponentSystem.h"
-#include "MenuComponentRenderingSystem.h"
 
 #include "TextureManager.h"
 #include "FontManager.h"
@@ -22,7 +21,7 @@ public:
 	~CreditsMenuState(){}
 
 	virtual void Load(sf::RenderWindow& window);
-	virtual void Draw(sf::RenderWindow& window);
+	virtual void ProcessState();
 	virtual void Update(sf::Event& event);
 
 	// Observer Update

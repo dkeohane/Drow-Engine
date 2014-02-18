@@ -7,22 +7,23 @@
 class EquipableItem: public Item
 {
 public:
-	EquipableItem(EquipableItemSlots::ItemSlots slotType, std::map<CharacterAttributes::Attribute, double>& itemValues)
+	EquipableItem(EquipableItemSlots::ItemSlots slotType, std::map<CharacterAttributes::Attribute, double>& itemValues, string name)
 	{
 		this->slotType = slotType;
 		this->itemValues = itemValues;
+		this->name = name;
 	}
 	~EquipableItem(){}
 
 	virtual void Equip()
 	{
-		cout << "EQUIP" << endl; 
+		cout << "EQUIPING : " << name << endl; 
 		notify();
 	}
 
 	virtual void Unequip()
 	{
-		cout << "UNEQUIP" << endl; 
+		cout << "UNEQUIPING : " << name << endl; 
 		// invert the values of the item to remove them from the character
 		for(valueIterator = itemValues.begin(); valueIterator != itemValues.end(); valueIterator++)
 		{

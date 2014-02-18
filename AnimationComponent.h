@@ -97,7 +97,13 @@ public:
 	virtual void Update(I_Subject* theChangeSubject)
 	{
 		string currentAnimationString = theChangeSubject->getValue(); // can make debugging easier
-		this->setCurrentAnimation(currentAnimationString);
+		if(currentAnimationString != "IDLE")
+		{
+			this->setCurrentAnimation(currentAnimationString);
+		}else{
+			currentAnimationPtr->pauseCurrentAnimation();
+		}
+
 	}
 
 	void pauseCurrentAnimation(){ currentAnimationPtr->pauseCurrentAnimation(); }
