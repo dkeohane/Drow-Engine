@@ -20,12 +20,14 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationSystem.cpp" />
+    <ClCompile Include="BlackBoard.cpp" />
     <ClCompile Include="CharacterAttributesSubject.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="CreditsMenuState.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="HealthPotion.cpp" />
     <ClCompile Include="InventoryMenuSystem.cpp" />
+    <ClCompile Include="I_State.cpp" />
     <ClCompile Include="json_reader.cpp" />
     <ClCompile Include="json_value.cpp" />
     <ClCompile Include="json_writer.cpp" />
@@ -115,8 +117,12 @@
     <ClInclude Include="BattleEncounterComponent.h" />
     <ClInclude Include="BattleEncounterSystem.h" />
     <ClInclude Include="BattleHUDSystem.h" />
+    <ClInclude Include="BlackBoard.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="CameraSystem.h" />
+    <ClInclude Include="Category.h" />
+    <ClInclude Include="CategoryComponent.h" />
+    <ClInclude Include="CategoryHelper.h" />
     <ClInclude Include="CharacterAttributes.h" />
     <ClInclude Include="CharacterAttributesObserver.h" />
     <ClInclude Include="CharacterAttributesSubject.h" />

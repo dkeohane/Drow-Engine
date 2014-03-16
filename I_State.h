@@ -3,11 +3,13 @@
 
 #include "Global.h"
 #include "I_Subject.h"
+#include "BlackBoard.h"
 
 class I_State
 {
 public:
 	virtual void ProcessState() = 0;
 	virtual void Update(sf::Event& event) = 0;
+	static BlackBoard* blackBoard;
 };
 #endif

@@ -12,7 +12,7 @@ void BattleState::Load(sf::RenderWindow& window)
 	spriteMapper.init(battleWorld);
 	menuTextMapper.init(battleWorld);
 	animationMapper.init(battleWorld);
-	RPGattributesMapper.init(battleWorld);
+	characterRPGMapper.init(battleWorld);
 
 	fileLoader = new FileLoader(&battleWorld);
 	window.setView(sf::View(sf::Vector2f(400, 300), sf::Vector2f(800, 600)));
@@ -24,10 +24,12 @@ void BattleState::Load(sf::RenderWindow& window)
 	setStateSpriteComponents(ATTACK_DECISION, false);
 
 	fileLoader->loadPlayerDetails("Config/Maps/Player.json");
-	createEnemy();
+	
 	//createHUD(tagManager->getEntity("Player"), tagManager->getEntity("Enemy"));
+
 	this->setPlayer(&tagManager->getEntity("Player"));
-	this->setEnemy(&tagManager->getEntity("Enemy"));
+	this->player->addComponent(I_State::blackBoard->getEntry<CharacterRPGComponent>("Player RPG Component"));
+	this->player->refresh();
 
 	menuComponentSystem = new MenuComponentSystem("ActionDecisionState");
 	menuComponentSystem->attach(this);
@@ -49,6 +51,15 @@ void BattleState::Load(sf::RenderWindow& window)
 	
 	battleWorld.loopStart();
 	battleWorld.setDelta(0.0016f);
+}
+
+
+void BattleState::onStateEntry()
+{
+	createEnemy();
+	createHUD(*player, *enemy);
+	entityManager->refresh(*enemy);
+	entityManager->refresh(*player);
 }
 
 void BattleState::ProcessState()
@@ -83,7 +94,7 @@ void BattleState::Update(I_Subject* theChangeSubject)
 		menuComponentSystem->setMenuComponentsGroup("AttackDecisionState"); // Update the MenuComponents group to be handled
 		mcsRenderer->setMenuComponentsGroup("AttackDecisionState"); 
 
-		std::vector<string> abilityNames = RPGattributesMapper.get(*player)->getAbilityNames();
+		std::vector<string> abilityNames = characterRPGMapper.get(*player)->getAbilityNames();
 		for(unsigned int i = 0; i < abilityNames.size(); i++)
 		{
 			menuTextMapper.get(*playerAttacks.at(i))->setComponentText(abilityNames.at(i));
@@ -130,33 +141,34 @@ void BattleState::Update(I_Subject* theChangeSubject)
 
 void BattleState::abilitySelection(string abilityName)
 {		
-	if(RPGattributesMapper.get(*player)->getAttributeValue(CharacterAttributes::CURRENTHEALTH) > 0 && RPGattributesMapper.get(*enemy)->getAttributeValue(CharacterAttributes::CURRENTHEALTH) > 0)
+	if(characterRPGMapper.get(*player)->getAttributeValue(CharacterAttributes::CURRENTHEALTH) > 0 && characterRPGMapper.get(*enemy)->getAttributeValue(CharacterAttributes::CURRENTHEALTH) > 0)
 	{
 		if(currentState == PLAYERTURN)
 		{
-			usePlayerAbility(RPGattributesMapper.get(*player)->getAbility(abilityName));
+			usePlayerAbility(characterRPGMapper.get(*player)->getAbility(abilityName));
 		}
 		else if(currentState == ENEMYTURN)
 		{
-			useEnemyAbility(RPGattributesMapper.get(*enemy)->getAbility(abilityName));
+			useEnemyAbility(characterRPGMapper.get(*enemy)->getAbility(abilityName));
 		}
 	}
 	else
 	{
-		cout << "SOMEONE IS DEAD" << endl;
+		cout << "Enemy health : " << characterRPGMapper.get(*enemy)->getAttributeValue(CharacterAttributes::CURRENTHEALTH)  << endl;
+		cout << "Player health : " << characterRPGMapper.get(*player)->getAttributeValue(CharacterAttributes::CURRENTHEALTH)  << endl;
 	}
 }
 
 void BattleState::usePlayerAbility(Ability* ability)
 {
 	double damage = calculateDamage(ability, player, enemy);
-	RPGattributesMapper.get(*enemy)->setAttributeValue(CharacterAttributes::CURRENTHEALTH, RPGattributesMapper.get(*enemy)->getAttributeValue(CharacterAttributes::CURRENTHEALTH) - damage);
+	characterRPGMapper.get(*enemy)->setAttributeValue(CharacterAttributes::CURRENTHEALTH, characterRPGMapper.get(*enemy)->getAttributeValue(CharacterAttributes::CURRENTHEALTH) - damage);
 }
 
 void BattleState::useEnemyAbility(Ability* ability)
 {
 	double damage = calculateDamage(ability, enemy, player);
-	RPGattributesMapper.get(*player)->setAttributeValue(CharacterAttributes::CURRENTHEALTH, RPGattributesMapper.get(*player)->getAttributeValue(CharacterAttributes::CURRENTHEALTH) - damage);
+	characterRPGMapper.get(*player)->setAttributeValue(CharacterAttributes::CURRENTHEALTH, characterRPGMapper.get(*player)->getAttributeValue(CharacterAttributes::CURRENTHEALTH) - damage);
 }
 
 void BattleState::createEnemy()
@@ -172,13 +184,13 @@ void BattleState::createEnemy()
 	abilities["Ability_3"]  = c;
 	abilities["Ability_4"]  = d;
 
-	artemis::Entity& enemy = this->entityManager->create();
-	enemy.addComponent(new PositionComponent(550, 50));
-	enemy.addComponent(new SpriteComponent(*TextureManager::getInstance()->getResource("Media/Images/enemy1.png")));
-	spriteMapper.get(enemy)->getSprite()->setScale(.75f, .75f);
-	enemy.addComponent(new CharacterRPGComponent(abilities));
-	tagManager->subscribe("Enemy", enemy);
-	enemy.refresh();
+	enemy = &this->entityManager->create();
+	enemy->addComponent(new PositionComponent(550, 50));
+	enemy->addComponent(new SpriteComponent(*TextureManager::getInstance()->getResource("Media/Images/enemy1.png")));
+	spriteMapper.get(*enemy)->getSprite()->setScale(.75f, .75f);
+	enemy->addComponent(new CharacterRPGComponent(abilities));
+	tagManager->subscribe("Enemy", *enemy);
+	enemy->refresh();
 }
 
 void BattleState::createHUD(artemis::Entity& player, artemis::Entity& enemy)
@@ -186,8 +198,8 @@ void BattleState::createHUD(artemis::Entity& player, artemis::Entity& enemy)
 	std::vector<sf::Texture> barT;
 	std::vector<sf::Texture> barBGT;
 
-	barT.push_back(*TextureManager::getInstance()->getResource("Media/Images/healthBar.png"));
-	barBGT.push_back(*TextureManager::getInstance()->getResource("Media/Images/healthBarBackground.png"));
+	barT.push_back(*TextureManager::getInstance()->getResource("Media/Images/HUD/healthHigh.png"));
+	barBGT.push_back(*TextureManager::getInstance()->getResource("Media/Images/HUD/healthMed.png"));
 
 
 	sf::Vector2f barPos1(105.0f, 105.0f);
@@ -199,7 +211,7 @@ void BattleState::createHUD(artemis::Entity& player, artemis::Entity& enemy)
 	pos1.push_back(barPos1);
 	pos2.push_back(barBGPos1);
 
-	player.addComponent(new HUDComponent(barT, barBGT, pos1, pos2));
+	enemy.addComponent(new HUDComponent(barT, barBGT, pos1, pos2));
 
 	pos1.clear();
 	pos2.clear();
@@ -207,7 +219,7 @@ void BattleState::createHUD(artemis::Entity& player, artemis::Entity& enemy)
 	pos1.push_back(sf::Vector2f(625, 520));
 	pos2.push_back(sf::Vector2f(620, 515));
 
-	enemy.addComponent(new HUDComponent(barT, barBGT, pos1, pos2));
+	player.addComponent(new HUDComponent(barT, barBGT, pos1, pos2));
 }
 
 void BattleState::setStateSpriteComponents(BattleStates state, bool enable)

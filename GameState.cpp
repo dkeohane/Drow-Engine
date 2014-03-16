@@ -11,6 +11,7 @@ void GameState::Load(sf::RenderWindow& window)
 	fileLoader = new FileLoader(&gameWorld);
 	spriteMapper.init(gameWorld);
 	inventoryMapper.init(gameWorld);
+	characterRPGMapper.init(gameWorld);
 	
 	p = new ParticleEmitter(&gameWorld);
 	p->setMaxLifeTime(sf::milliseconds(600));
@@ -28,6 +29,7 @@ void GameState::Load(sf::RenderWindow& window)
 	fileLoader->loadTextComponents("Config/Maps/temp.json", true, NULL);
 
 	tagManager->getEntity("Player").addComponent(new CameraComponent(&window, sf::View(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(500, 400))));
+	I_State::blackBoard->setEntry("Player RPG Component", characterRPGMapper.get(tagManager->getEntity("Player")));
 	tagManager->getEntity("Player").refresh();
 
 	systemManager->setSystem(new ParticleSystem());
@@ -62,6 +64,7 @@ void GameState::Load(sf::RenderWindow& window)
 	inventoryBackground.addComponent(new PositionComponent(0,0));
 	inventoryBackground.addComponent(new ViewPositionComponent(0,0));
 	inventoryBackground.addComponent(new SpriteComponent(*TextureManager::getInstance()->getResource("Media/Images/Backgrounds/inventoryBackground.png")));
+	spriteMapper.get(inventoryBackground)->getSprite()->setScale(2,2);
 	inventoryBackground.refresh();
 	groupManager->set(stateSpriteGroups[INVENTORY], inventoryBackground);
 	// end temp
@@ -72,6 +75,7 @@ void GameState::Load(sf::RenderWindow& window)
 
 	gameWorld.loopStart();
 	gameWorld.setDelta(0.0016f);
+
 }
 
 void GameState::Update(sf::Event& event)
@@ -91,7 +95,6 @@ void GameState::Update(sf::Event& event)
 void GameState::ProcessState()
 {	
 	systemManager->getSystem<SpriteSystem>()->process();
-	systemManager->getSystem<AnimationSystem>()->process();
 	
 	// replace with fnc ptrs later on
 	if(currentState == PLAYING)
@@ -104,12 +107,14 @@ void GameState::ProcessState()
 		systemManager->getSystem<MovementSystem>()->process();
 		systemManager->getSystem<ParticleSystem>()->process();
 		systemManager->getSystem<BattleEncounterSystem>()->process();
+		systemManager->getSystem<AnimationSystem>()->process();
 	}
 	else if(currentState == PAUSED)
 	{
 		systemManager->getSystem<ViewRelativeUpdateSystem>()->process();
 		systemManager->getSystem<MenuComponentSystem>()->process();
 		systemManager->getSystem<MenuComponentGroupRenderingSystem>()->process();
+		systemManager->getSystem<AnimationSystem>()->process();
 	}
 	else if (currentState == CHARACTER_DETAILS)
 	{
@@ -156,6 +161,7 @@ void GameState::Update(I_Subject* theChangeSubject)
 		currentState = PLAYING;
 		previousState = PLAYING;
 		subjectValue = "BattleState";
+
 		window->setView(sf::View(sf::Vector2f(400, 300), sf::Vector2f(800, 600)));
 		notify();
 	}

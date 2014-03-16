@@ -21,7 +21,7 @@ public:
 	void Load();
 
 	virtual void Update(I_Subject* theChangeSubject);
-	void setCurrentState(I_State* state){ this->currentState = state; }
+	void setCurrentState(ScreenState* state){ this->currentState = state; }
 	ScreenState* createState(std::string& stateType);
 
 	void fadeIn();
@@ -29,7 +29,7 @@ public:
 
 private:
 	std::string currentStateString;
-	I_State* currentState;
+	ScreenState* currentState;
 
 	sf::Sprite fadeSprite;
 

@@ -23,6 +23,8 @@
 #include "FileLoader.h"
 #include "ParticleEmitter.h"
 
+#include "CategoryHelper.h"
+
 class GameState : public ScreenState, public I_Observer
 {
 public:
@@ -66,6 +68,7 @@ private:
 	// Mappers
 	artemis::ComponentMapper<SpriteComponent> spriteMapper;
 	artemis::ComponentMapper<InventoryComponent> inventoryMapper;
+	artemis::ComponentMapper<CharacterRPGComponent> characterRPGMapper;
 
 	FileLoader* fileLoader;
 	ParticleEmitter* p;

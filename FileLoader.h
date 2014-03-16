@@ -12,6 +12,8 @@
 #include "TextureManager.h"
 #include "FontManager.h"
 
+#include "CategoryComponent.h"
+
 #include "SpriteComponent.h"
 #include "CollisionComponent.h"
 #include "PositionComponent.h"

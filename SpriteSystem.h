@@ -38,8 +38,8 @@ public:
 	bool isOnScreen()
 	{
 		viewPort = window->getViewport(window->getView());
-		viewPort.left = window->getView().getCenter().x - (window->getView().getSize().x / 2);
-		viewPort.top = window->getView().getCenter().y - (window->getView().getSize().y / 2);
+		viewPort.left = (int)(window->getView().getCenter().x - (window->getView().getSize().x / 2));
+		viewPort.top = (int)(window->getView().getCenter().y - (window->getView().getSize().y / 2));
 
 		width = int(sprite->getTextureRect().width * sprite->getScale().x);
 		height = int(sprite->getTextureRect().height * sprite->getScale().y);

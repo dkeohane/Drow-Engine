@@ -19,13 +19,13 @@ public:
 	virtual void initialize()
 	{
 		HUDMapper.init(*world);
-		RPGattributesMapper.init(*world);
+		characterRPGMapper.init(*world);
 	}
 
 	virtual void processEntity(artemis::Entity &e)
 	{
 		bars = (*HUDMapper.get(e)).getHudBars();
-		CharacterRPGComponent& cRPG = *RPGattributesMapper.get(e);
+		CharacterRPGComponent& cRPG = *characterRPGMapper.get(e);
 
 
 		sf::IntRect tRext(0, 0, int((cRPG.getAttributeValue(CharacterAttributes::CURRENTHEALTH) / cRPG.getAttributeValue(CharacterAttributes::MAXHEALTH)) * bars->at(0).bar.getSize().x), (int)bars->at(0).bar.getSize().y);
@@ -45,6 +45,6 @@ private:
 
 	std::vector<GuageBar>* bars;
 	artemis::ComponentMapper<HUDComponent> HUDMapper;
-	artemis::ComponentMapper<CharacterRPGComponent> RPGattributesMapper;
+	artemis::ComponentMapper<CharacterRPGComponent> characterRPGMapper;
 };
 #endif

@@ -39,7 +39,6 @@ void Game::Load()
 	sf::Color color = fadeSprite.getColor();
 	color.a = 0;
 	fadeSprite.setColor(color);
-	
 
 	sf::Music* music = new sf::Music();
 	music->openFromFile("Media/Music/Opening.ogg");
@@ -80,11 +79,13 @@ void Game::Update(I_Subject* theChangeSubject)
 	{
 		// Changes the menu state
 		stateMusic[currentStateString]->pause();
+		currentState->onStateDeparture();
 		currentStateString = theChangeSubject->getValue();
 
 		stateMusic[currentStateString]->play();
 		fadeIn();
 		setCurrentState(availableStates[currentStateString]);
+		currentState->onStateEntry();
 		fadeOut();
 	}else{
 		//flush and close

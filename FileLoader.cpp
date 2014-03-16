@@ -59,6 +59,17 @@ void FileLoader::loadMap(const std::string filepath)
 		cout << "mapData is null" << endl;
 	}
 
+	artemis::Entity& ground = entityManager->create();
+	ground.addComponent(new PositionComponent(-250,-250));
+	ground.addComponent(new SpriteComponent(*TextureManager::getInstance()->getResource("Media/Images/Ground_Tiles/15.png")));
+	//spriteMapper.get(ground)->getSprite()->setScale(1.5f,1.5f);
+	spriteMapper.get(ground)->getSprite()->setTextureRect(sf::IntRect(0,0,2000,2000));
+	spriteMapper.get(ground)->getTexture()->setRepeated(true);
+	ground.refresh();
+	groupManager->set("ground", ground);
+
+
+
 	for(unsigned int i = 0; i < mapData.size(); i++)
 	{
 		Json::Value mapRow = mapData[i];
@@ -220,6 +231,7 @@ void FileLoader::loadPlayerDetails(const std::string filepath)
 	Json::Value collision = root.get("Collision", NULL);
 	if(collision.asBool()){ e->addComponent(new CollisionComponent()); }
 
+	e->addComponent(new CategoryComponent());
 	e->addComponent(new PlayerInputComponent(0, 30.0f));
 
 	loadAbilities(root, e);

@@ -22,7 +22,6 @@
 #include "TextureManager.h"
 
 
-
 class BattleState: public ScreenState, public I_Observer
 {
 public:
@@ -43,11 +42,12 @@ public:
 	virtual void ProcessState();
 	virtual void Update(sf::Event& event);
 
+	virtual void onStateEntry();
+
 	// Observer Update
 	virtual void Update(I_Subject* theChangeSubject);
 	// Subject getValue
 	virtual string getValue(){ return "GameState"; }
-
 
 
 	void createHUD(artemis::Entity& player, artemis::Entity& enemy);
@@ -73,11 +73,12 @@ private:
 	MenuComponentSystem* menuComponentSystem;
 	MenuComponentGroupRenderingSystem* mcsRenderer;
 	
-	artemis::Entity* menuEntity;
-	artemis::Entity* player;
+	FileLoader* fileLoader;
+
 	artemis::Entity* enemy;
-	artemis::Entity* playerAttack;
-	artemis::Entity* enemyAttack;
+	artemis::Entity* player;
+	std::vector<artemis::Entity*> playerAttacks;
+	std::map<BattleStates, string> stateSpriteGroups;
 
 	//Managers
 	artemis::EntityManager* entityManager;
@@ -85,14 +86,10 @@ private:
 	artemis::GroupManager* groupManager;
 	artemis::TagManager* tagManager;
 
-	FileLoader* fileLoader;
-
-	std::map<BattleStates, string> stateSpriteGroups;
-	std::vector<artemis::Entity*> playerAttacks;
-
+	// Component Mappers
 	artemis::ComponentMapper<SpriteComponent> spriteMapper;
 	artemis::ComponentMapper<MenuTextComponent> menuTextMapper;
 	artemis::ComponentMapper<AnimationComponent> animationMapper;
-	artemis::ComponentMapper<CharacterRPGComponent> RPGattributesMapper;
+	artemis::ComponentMapper<CharacterRPGComponent> characterRPGMapper;
 };
 #endif
